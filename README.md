@@ -1,41 +1,38 @@
-# Welcome to your Expo app 👋
+# Welcome to Baja Valle App 🍷
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+This is an [Expo](https://expo.dev) project
 
-## Get started
+## Getting started
 
-1. Install dependencies
+1. Clone the project
+
+   html
+   ```bash
+   git clone https://github.com/raulvaldes-cetys/baja-valle-app.git
+   ```
+   ssh
+   ```bash
+   git clone git@github.com:raulvaldes-cetys/baja-valle-app.git
+   ```
+   [How to setup your ssh key](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent)
+
+2. Install dependencies
 
    ```bash
    npm install
    ```
 
-2. Start the app
+3. Start the app
 
    ```bash
    npx expo start --clear
    ```
 
-In the output, you'll find options to open the app in a
+For this project you should open the app using [Expo Go](https://expo.dev/go)
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+Most relevant project files are found inside the **src** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
-
-```bash
-npm run reset-project
-```
-
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
-
-### Other setup steps
+### Useful tips
 
 - To set up ESLint for linting, run `npx expo lint`, or follow our guide on ["Using ESLint and Prettier"](https://docs.expo.dev/guides/using-eslint/)
 - If you'd like to set up unit testing, follow our guide on ["Unit Testing with Jest"](https://docs.expo.dev/develop/unit-testing/)
@@ -43,14 +40,5 @@ This command will move the starter code to the **app-example** directory and cre
 
 ## Learn more
 
-To learn more about developing your project with Expo, look at the following resources:
-
 - [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
 
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
