@@ -6,7 +6,7 @@ This is an [Expo](https://expo.dev) project
 
 1. Clone the project
 
-   html
+   http
    ```bash
    git clone https://github.com/raulvaldes-cetys/baja-valle-app.git
    ```
