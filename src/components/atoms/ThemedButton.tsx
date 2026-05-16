@@ -2,7 +2,7 @@ import { TouchableOpacity, type TouchableOpacityProps } from "react-native";
 
 import { ThemedText } from "./ThemedText";
 
-export type ThemedButtonVariant = "default" | "ghost";
+export type ThemedButtonVariant = "default" | "ghost" | "primary";
 
 export type ThemedButtonProps = TouchableOpacityProps & {
     variant?: ThemedButtonVariant;
@@ -17,6 +17,16 @@ export function ThemedButton({ variant = "default", children, ...props }: Themed
                     {children}
                 </ThemedText>
             </TouchableOpacity>
+        );
+    }
+
+    if (variant === "primary") {
+        return (
+             <TouchableOpacity className="items-center rounded-lg bg-[#F5F5EC] px-14 py-2 mx-4" {...props}>
+            <ThemedText weight="bold" className="text-base tracking-widest text-[#7F6E42]">
+                {children}
+            </ThemedText>
+        </TouchableOpacity>
         );
     }
 
