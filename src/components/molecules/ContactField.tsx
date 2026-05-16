@@ -5,15 +5,22 @@ import { ThemedText } from "../atoms/ThemedText";
 export type ContactFieldProps = ThemedInputProps & {
     label: string;
     errorMessage?: string;
+    className?: string;
+    light?: boolean;
 }
 
-export function ContactField({ label, errorMessage, ...props }: ContactFieldProps) {
+export function ContactField({ label, errorMessage, className, light, ...props }: ContactFieldProps) {
     return (
-        <View>
-            <ThemedText weight="regular">{label} *</ThemedText>
+        <View className={`w-full gap-1 ${className ?? ""}`}>
+            <ThemedText weight="semibold" 
+            className={`text-sm ${light ? "text-[#F0EFDF]" : "text-[#33232C]"}`}
+            >
+                {label} *
+            </ThemedText>
+
             <ThemedInput error={!!errorMessage} {...props} />
             {errorMessage && (
-                <ThemedText weight="regular">{errorMessage}</ThemedText>
+                <ThemedText weight="regular" className="text-xs text-[#A43F32]">{errorMessage}</ThemedText>
             )}
         </View> 
     );
