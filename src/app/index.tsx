@@ -1,9 +1,7 @@
-import { View } from 'react-native';
-import { ThemedText } from '@/components/atoms/ThemedText';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { Skeleton } from '@/components/atoms/Skeleton';
-import { useState } from 'react';
+import Forms from '@/components/molecules/Forms';
 import HeaderWithImage from '@/components/molecules/HeaderWithImage';
+import ProductOverview from '@/components/molecules/ProductOverview';
+import { Keyboard, ScrollView, TouchableWithoutFeedback } from "react-native";
 
 const data = [
   { label: 'JavaScript', value: 'javascript' },
@@ -14,15 +12,16 @@ const data = [
 ];
 
 export default function HomeScreen() {
-  const [value, setValue] = useState(null);
-  const [isFocus, setIsFocus] = useState(false);
   return (
-    <View className="flex-1 bg-white">
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}> 
+    <ScrollView className="flex-1 bg-[#F0EFDF]">
+    
       <HeaderWithImage title="BAJA VALLE" subtitle="TODO PARA VIÑEDOS" text="ENS / BC" backGroundImage={require('@/assets/images/home-header-image.png')} />
-      <View className="flex-1 items-center justify-center">
-        <ThemedText weight="bold" className="text-2xl font-bold text-black pb-6">Home</ThemedText>
-        <Skeleton height={30} width={200} className="pb-8" />
-      </View>
-    </View>
+ 
+        <ProductOverview />
+    
+        <Forms />
+    </ScrollView>
+    </TouchableWithoutFeedback>
   );
 }
