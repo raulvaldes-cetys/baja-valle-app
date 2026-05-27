@@ -1,3 +1,6 @@
 const Endpoints = {
-    GET_USER: '/api/user',
+    PRODUCTS: '/products',
+    CATEGORIES: '/categories',
 }
+
+export default Endpoints;
