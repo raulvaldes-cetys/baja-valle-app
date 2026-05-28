@@ -29,3 +29,23 @@ export interface CategoryListItem {
   color: string;
   iconUrl: string;
 }
+
+export interface ContactMailBody {
+  nombre: string;
+  apellido: string;
+  correo: string;
+  mensaje: string;
+}
+
+export interface CartItem {
+  nombre: string;
+  cantidad: number;
+}
+
+export interface CartMailBody {
+  nombre: string;
+  apellido: string;
+  correo: string;
+  ubicacion: string;
+  items: CartItem[];
+}

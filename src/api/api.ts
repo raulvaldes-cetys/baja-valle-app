@@ -1,6 +1,6 @@
 import api from './axios';
 import ENDPOINTS from './endpoints';
-import { ProductsListResponse } from './types/api-types';
+import { CartMailBody, ContactMailBody, ProductsListResponse } from './types/api-types';
 
 export class Api {
     static async getProductsList(): Promise<ProductsListResponse> {
@@ -29,6 +29,24 @@ export class Api {
             return response.data;
         } catch (error) {
             console.error('Error fetching categories list:', error);
+            throw error;
+        }
+    }
+
+    static async postMailContact(body: ContactMailBody): Promise<void> {
+        try {
+            await api.post(ENDPOINTS.POST_MAIL_CONTACT, body);
+        } catch (error) {
+            console.error('Error sending contact mail:', error);
+            throw error;
+        }
+    }
+
+    static async postMailCart(body: CartMailBody): Promise<void> {
+        try {
+            await api.post(ENDPOINTS.POST_MAIL_CART, body);
+        } catch (error) {
+            console.error('Error sending cart mail:', error);
             throw error;
         }
     }
