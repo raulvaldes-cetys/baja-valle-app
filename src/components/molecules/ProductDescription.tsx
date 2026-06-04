@@ -23,7 +23,9 @@ export default function ProductDescription({
           {description}
         </ThemedText>
       </View>
-      <FavoriteButton isFavorite={isFavorite} onPress={onFavoritePress} />
+      <View style={{ marginTop: -8 }}>
+        <FavoriteButton isFavorite={isFavorite} onPress={onFavoritePress} />
+      </View>
     </View>
   );
 }

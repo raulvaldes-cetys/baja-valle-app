@@ -1,6 +1,6 @@
 import api from './axios';
 import ENDPOINTS from './endpoints';
-import { CartMailBody, CategoriesListResponse, ContactMailBody, ProductsListResponse } from './types/api-types';
+import { CartMailBody, CategoriesListResponse, ContactMailBody, ProductByIdResponse, ProductsListResponse } from './types/api-types';
 
 
 export class Api {
@@ -16,7 +16,7 @@ export class Api {
         }
     }
 
-    static async getProductDetails(productId: string) {
+    static async getProductDetails(productId: string): Promise<ProductByIdResponse> {
         try {
             const response = await api.get(`${ENDPOINTS.PRODUCTS}/${productId}`, {});
             return response.data;

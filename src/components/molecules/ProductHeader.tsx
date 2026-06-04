@@ -1,20 +1,17 @@
 import BajaValleLogo from "@/assets/images/baja-valle-logo.svg";
 import { ThemedText } from "@/components/atoms/ThemedText";
 import { LinearGradient } from "expo-linear-gradient";
-import { ImageBackground, ImageSourcePropType, View } from "react-native";
+import { ImageBackground, View } from "react-native";
 
 interface ProductHeaderProps {
-  image: ImageSourcePropType;
+  imageUrl: string | null;
   name: string;
 }
 
-export default function ProductHeader({
-  image,
-  name,
-}: ProductHeaderProps) {
+export default function ProductHeader({ imageUrl, name }: ProductHeaderProps) {
   return (
     <ImageBackground
-      source={image}
+      source={imageUrl ? { uri: imageUrl } : undefined}
       className="w-full h-80"
       resizeMode="cover"
     >
@@ -27,7 +24,7 @@ export default function ProductHeader({
           <BajaValleLogo width={125} height={100} />
         </View>
         <View className="items-center pb-16 px-6">
-          <ThemedText weight="bold" className="text-white text-3xl text-center px-16">
+          <ThemedText weight="bold" className="text-white text-xl text-center px-16">
             {name.toUpperCase()}
           </ThemedText>
         </View>
