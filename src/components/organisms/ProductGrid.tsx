@@ -25,6 +25,7 @@ export default function ProductGrid({
         columnWrapperClassName="gap-2 mt-3"
         renderItem={({ item }) => (
           <ProductCard
+            id={item.id}
             name={item.name}
             image={item.image}
             onPress={() => onProductPress?.(item)}

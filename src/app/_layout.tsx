@@ -1,20 +1,18 @@
-import "../global.css";
-import { DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import React from 'react';
 import { Montserrat_300Light, Montserrat_400Regular, Montserrat_600SemiBold, Montserrat_700Bold, useFonts } from '@expo-google-fonts/montserrat';
+import { DefaultTheme, ThemeProvider } from '@react-navigation/native';
+import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
-import { useEffect } from 'react';
-
-import AppTabs from '@/components/app-tabs';
+import React, { useEffect } from 'react';
+import "../global.css";
 
 SplashScreen.preventAutoHideAsync();
 
-export default function TabLayout() {
+export default function RootLayout() {
   const [fontsLoaded, fontError] = useFonts({
     Montserrat_300Light,
     Montserrat_400Regular,
     Montserrat_600SemiBold,
-    Montserrat_700Bold
+    Montserrat_700Bold,
   });
 
   useEffect(() => {
@@ -23,13 +21,14 @@ export default function TabLayout() {
     }
   }, [fontsLoaded, fontError]);
 
-  if (!fontsLoaded) {
-    return null;
-  }
+  if (!fontsLoaded) return null;
 
   return (
     <ThemeProvider value={DefaultTheme}>
-      <AppTabs />
+      <Stack screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="(tabs)" />
+        <Stack.Screen name="product/[id]" />
+      </Stack>
     </ThemeProvider>
   );
 }

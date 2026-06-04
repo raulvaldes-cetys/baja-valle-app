@@ -1,20 +1,22 @@
+import { router } from "expo-router";
 import { ImageSourcePropType, Pressable, Text } from "react-native";
 import ProductImage from "../atoms/ProductImage";
 
 interface ProductCardProps {
+  id: string;
   name: string;
   image: ImageSourcePropType;
   onPress?: () => void;
 }
 
 export default function ProductCard({
+  id,
   name,
   image,
-  onPress,
 }: ProductCardProps) {
   return (
     <Pressable
-      onPress={onPress}
+      onPress={() => router.push(`/product/${id}` as any)}
       className="flex-1 m-1"
     >
       <ProductImage source={image} size="lg" />

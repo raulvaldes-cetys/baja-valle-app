@@ -12,6 +12,8 @@ export default function AppTabs() {
       }}>
       <Tabs.Screen name="index" options={{ title: 'Home' }} />
       <Tabs.Screen name="explore" options={{ title: 'Explore' }} />
+      {/* <Tabs.Screen name="products" options={{ title: 'Productos', href: null }} />
+      <Tabs.Screen name="product/[id]" options={{ title: 'Detalle', href: null }} /> */}
     </Tabs>
   );
 }
