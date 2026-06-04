@@ -6,17 +6,18 @@ export interface ProductsListItem {
   id: number;
   name: string;
   price: number;
-  imageUrl: string;
+  imageUrl: string | null;
+  categoryId: number;
 }
 
 export interface ProductByIdResponse {
   id: number;
   name: string;
-  description: string;
-  features: string[];
-  specifications: string;
+  description: string | null;
+  features: string[] | null;
+  specifications: string | null;
   price: number;
-  imageUrl: string;
+  imageUrl: string | null;
 }
 
 export interface CategoriesListResponse {

@@ -3,30 +3,36 @@ import CartButton from "@/components/atoms/Cart";
 import SearchInput from "@/components/atoms/SearchInput";
 import CategoryNav from "@/components/organisms/CategoryNav";
 import ProductGrid from "@/components/organisms/ProductGrid";
-import { CATEGORIES, CategoryId } from "@/constants/categories";
-import { MOCK_PRODUCTS } from "@/constants/mockProducts";
-import { Product } from "@/types/product";
+import { Skeleton } from "@/components/atoms/Skeleton";
+import { useGetCategoriesList } from "@/services/queries/use-get-categories-list";
+import { useGetProductsList } from "@/services/queries/use-get-products-list";
+import { useLocalSearchParams } from "expo-router";
 import { useState } from "react";
 import { ScrollView, Text, View } from "react-native";
 import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
 
+const DEFAULT_CATEGORY_ID = 3;
+
 export default function ProductScreen() {
   const insets = useSafeAreaInsets();
-  const [activeCategory, setActiveCategory] = useState<CategoryId>("vinicolas");
+  const { categoryId: categoryIdParam } = useLocalSearchParams<{ categoryId?: string }>();
+
+  const parsedId = Number(categoryIdParam);
+  const [activeCategoryApiId, setActiveCategoryApiId] = useState<number>(
+    parsedId > 0 ? parsedId : DEFAULT_CATEGORY_ID
+  );
   const [search, setSearch] = useState("");
 
-  const filteredProducts = MOCK_PRODUCTS.filter(
+  const { data: productsData, isLoading } = useGetProductsList();
+  const { data: categoriesData } = useGetCategoriesList();
+
+  const filteredProducts = (productsData?.products ?? []).filter(
     (p) =>
-      p.categoryId === activeCategory &&
+      p.categoryId === activeCategoryApiId &&
       p.name.toLowerCase().includes(search.toLowerCase())
   );
 
-  const activeLabel =
-    CATEGORIES.find((c) => c.id === activeCategory)?.label ?? "";
-
-  function handleProductPress(product: Product) {
-    console.log("producto seleccionado:", product.name);
-  }
+  const activeLabel = categoriesData?.categories?.find((c) => c.id === activeCategoryApiId)?.name ?? "";
 
   return (
     <SafeAreaView className="flex-1 bg-[#F5F0E8]" edges={["top"]}>
@@ -34,41 +40,53 @@ export default function ProductScreen() {
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ paddingBottom: insets.bottom + 50 }}
       >
-
         <View className="bg-[#F0EFDF]">
-          {/* header */}
           <View className="items-center pt-4 pb-1">
             <BajaValleLogo width={200} height={150} color="#31242C" />
           </View>
 
-          {/* titulo de seccion */}
           <Text className="text-center text-3xl font-bold tracking-widest text-[#7B2D2D] px-3 mb-3">
             NUESTROS PRODUCTOS
           </Text>
 
-          {/* searchbar */}
           <View className="flex-row items-center px-4 gap-2 mb-2">
             <SearchInput
-              placeholder="Gotera para planta"
+              placeholder="Buscar producto..."
               value={search}
               onChangeText={setSearch}
             />
             <CartButton count={0} />
           </View>
 
-          {/* categorias */}
-          <CategoryNav onCategoryChange={setActiveCategory} />
-        </View>
-
-        {/* productos */}
-        <View className="mt-2">
-          <ProductGrid
-            title={activeLabel}
-            products={filteredProducts}
-            onProductPress={handleProductPress}
+          <CategoryNav
+            activeApiId={activeCategoryApiId}
+            onCategoryChange={(apiId) => {
+              setActiveCategoryApiId(apiId);
+              setSearch("");
+            }}
           />
         </View>
 
+        <View className="mt-2">
+          {isLoading ? (
+            <View className="px-4 mt-4">
+              {Array.from({ length: 3 }).map((_, row) => (
+                <View key={row} className="flex-row gap-2 mt-3">
+                  {[0, 1].map((col) => (
+                    <View key={col} className="flex-1 m-1 gap-2">
+                      <Skeleton height={160} width="100%" />
+                      <Skeleton height={12} width="85%" />
+                      <Skeleton height={12} width="60%" />
+                      <Skeleton height={1} width="100%" />
+                    </View>
+                  ))}
+                </View>
+              ))}
+            </View>
+          ) : (
+            <ProductGrid title={activeLabel} products={filteredProducts} />
+          )}
+        </View>
       </ScrollView>
     </SafeAreaView>
   );

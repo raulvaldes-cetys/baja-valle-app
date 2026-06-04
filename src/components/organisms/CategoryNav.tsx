@@ -1,19 +1,22 @@
 import { IconWithText } from "@/components/molecules/IconWithText";
-import { CATEGORIES, CategoryId } from "@/constants/categories";
-import { useState } from "react";
+import { CATEGORIES } from "@/constants/categories";
+import { useGetCategoriesList } from "@/services/queries/use-get-categories-list";
 import { ScrollView } from "react-native";
 
 interface CategoryNavProps {
-  onCategoryChange?: (id: CategoryId) => void;
+  activeApiId: number;
+  onCategoryChange?: (apiId: number) => void;
 }
 
-export default function CategoryNav({ onCategoryChange }: CategoryNavProps) {
-  const [activeId, setActiveId] = useState<CategoryId>("vinicolas");
+export default function CategoryNav({ activeApiId, onCategoryChange }: CategoryNavProps) {
+  const { data } = useGetCategoriesList();
 
-  function handlePress(id: CategoryId) {
-    setActiveId(id);
-    onCategoryChange?.(id);
-  }
+  const categories = data?.categories
+    ?.map((apiCat) => {
+      const localCat = CATEGORIES.find((c) => c.label === apiCat.name);
+      return localCat ? { ...localCat, apiId: apiCat.id, apiName: apiCat.name } : null;
+    })
+    .filter(Boolean) ?? [];
 
   return (
     <ScrollView
@@ -21,12 +24,12 @@ export default function CategoryNav({ onCategoryChange }: CategoryNavProps) {
       showsHorizontalScrollIndicator={false}
       contentContainerClassName="flex-row gap-10 px-5 py-5"
     >
-      {CATEGORIES.map((cat) => (
+      {categories.map((cat) => (
         <IconWithText
-          key={cat.id}
-          name={cat.iconName}
-          label={cat.label}
-          onPress={() => handlePress(cat.id)}
+          key={cat!.apiId}
+          name={cat!.iconName}
+          label={cat!.apiName}
+          onPress={() => onCategoryChange?.(cat!.apiId)}
           className="w-20"
           labelClassName="text-xs"
         />
