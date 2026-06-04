@@ -1,7 +1,7 @@
 import FavoritesSvg from "@/assets/expo.icon/Assets/favorites.svg";
 import HomeSvg from "@/assets/expo.icon/Assets/home.svg";
 import ProductsSvg from "@/assets/expo.icon/Assets/products.svg";
-import ShoppingCartSvg from "@/assets/expo.icon/Assets/shopping-cart.svg";
+import ShoppingCartSvg from "@/assets/expo.icon/Assets/cart-icon.svg";
 import { TouchableOpacity, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
