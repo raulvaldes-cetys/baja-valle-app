@@ -1,12 +1,15 @@
 import api from './axios';
 import ENDPOINTS from './endpoints';
-import { CartMailBody, ContactMailBody, ProductsListResponse } from './types/api-types';
+import { CartMailBody, CategoriesListResponse, ContactMailBody, ProductsListResponse } from './types/api-types';
+
 
 export class Api {
     static async getProductsList(): Promise<ProductsListResponse> {
         try {
             const response = await api.get(ENDPOINTS.PRODUCTS, {});
-            return response.data;
+            const raw = response.data;
+            // API returns array directly, normalize to expected shape
+            return { products: Array.isArray(raw) ? raw : raw.products ?? [] };
         } catch (error) {
             console.error('Error fetching products list:', error);
             throw error;
@@ -23,10 +26,11 @@ export class Api {
         }
     }
 
-    static async getCategoriesList() {
+    static async getCategoriesList(): Promise<CategoriesListResponse> {
         try {
             const response = await api.get(ENDPOINTS.CATEGORIES, {});
-            return response.data;
+            const raw = response.data;
+            return { categories: Array.isArray(raw) ? raw : raw.categories ?? [] };
         } catch (error) {
             console.error('Error fetching categories list:', error);
             throw error;

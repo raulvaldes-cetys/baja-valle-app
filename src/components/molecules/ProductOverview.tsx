@@ -1,3 +1,4 @@
+import { router } from "expo-router";
 import { View } from "react-native";
 import { CATEGORIES } from "@/constants/categories";
 import { useGetCategoriesList } from "@/services/queries/use-get-categories-list";
@@ -9,7 +10,10 @@ export default function ProductOverview() {
     const { data, isLoading } = useGetCategoriesList();
 
     const categories = data?.categories
-        ?.map((apiCat) => CATEGORIES.find((c) => c.label === apiCat.name))
+        ?.map((apiCat) => {
+            const localCat = CATEGORIES.find((c) => c.label === apiCat.name);
+            return localCat ? { ...localCat, apiId: apiCat.id } : null;
+        })
         .filter(Boolean) ?? CATEGORIES;
 
     return (
@@ -33,7 +37,7 @@ export default function ProductOverview() {
                             name={category!.iconName}
                             label={category!.label}
                             className="w-1/3 py-3"
-                            onPress={() => console.log("presionado")}
+                            onPress={() => router.push(`/(tabs)/products?categoryId=${category!.apiId}` as any)}
                         />
                     ))
                 }
