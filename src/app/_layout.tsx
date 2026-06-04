@@ -1,10 +1,13 @@
+import "../global.css";
 import { Montserrat_300Light, Montserrat_400Regular, Montserrat_600SemiBold, Montserrat_700Bold, useFonts } from '@expo-google-fonts/montserrat';
 import { DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import * as SplashScreen from 'expo-splash-screen';
-import React, { useEffect } from 'react';
-import "../global.css";
+import { useEffect } from 'react';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 import AppTabs from '@/components/app-tabs';
+
+const queryClient = new QueryClient();
 
 SplashScreen.preventAutoHideAsync();
 
@@ -27,8 +30,10 @@ export default function TabLayout() {
   }
 
   return (
-    <ThemeProvider value={DefaultTheme}>
-      <AppTabs />
-    </ThemeProvider>
+    <QueryClientProvider client={queryClient}>
+      <ThemeProvider value={DefaultTheme}>
+        <AppTabs />
+      </ThemeProvider>
+    </QueryClientProvider>
   );
 }
