@@ -53,7 +53,7 @@ export default function Quote({ productName, onAddToCart }: QuoteProps) {
               </View>
             )}
           </View>
-          <ThemedText weight="semibold" className="text-white text-xl flex-1">
+          <ThemedText weight="semibold" className="text-white text-xl flex-1 text-right">
             {productName}
           </ThemedText>
         </View>

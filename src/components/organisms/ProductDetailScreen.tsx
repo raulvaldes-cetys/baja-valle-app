@@ -24,7 +24,7 @@ export default function ProductDetailScreen({ product }: ProductDetailScreenProp
   return (
     <View className="flex-1 bg-[#4A1628]">
       <TouchableOpacity
-        onPress={() => router.back()}
+        onPress={() => router.navigate('/(tabs)/products')}
         style={{ position: "absolute", top: 50, left: 16, zIndex: 10 }}
         className="bg-black/30 rounded-full p-2"
       >
@@ -39,7 +39,7 @@ export default function ProductDetailScreen({ product }: ProductDetailScreenProp
         <ProductHeader imageUrl={product.imageUrl} name={product.name} />
 
         <View className="bg-white px-5 pt-10 pb-2" style={{ overflow: "hidden" }}>
-          <View style={{ position: "absolute", right: -10, top: 100, opacity: 0.85 }}>
+          <View style={{ position: "absolute", right: 0, top: 100, opacity: 0.85 }}>
             <GrapesVectorSvg width={80} height={200} />
           </View>
 
@@ -51,22 +51,24 @@ export default function ProductDetailScreen({ product }: ProductDetailScreenProp
             />
           )}
 
-          {product.features && product.features.length > 0 && (
-            <ProductCharacteristics characteristics={product.features} />
-          )}
+          <View style={{ marginRight: 54 }}>
+            {product.features && product.features.length > 0 && (
+              <ProductCharacteristics characteristics={product.features} />
+            )}
 
-          {product.specifications && (
-            <View className="mb-4">
-              <ThemedText weight="bold" className="text-lg mb-2" style={{ color: "#33232C" }}>
-                Especificaciones
-              </ThemedText>
-              <ThemedText weight="regular" className="text-base leading-6" style={{ color: "#33232C" }}>
-                {product.specifications}
-              </ThemedText>
-            </View>
-          )}
+            {product.specifications && (
+              <View className="mb-4">
+                <ThemedText weight="bold" className="text-lg mb-2" style={{ color: "#33232C" }}>
+                  Especificaciones
+                </ThemedText>
+                <ThemedText weight="regular" className="text-base leading-6" style={{ color: "#33232C" }}>
+                  {product.specifications}
+                </ThemedText>
+              </View>
+            )}
 
-          <ProductPrice price={product.price} />
+            <ProductPrice price={product.price} />
+          </View>
         </View>
 
         <View className="flex-1">

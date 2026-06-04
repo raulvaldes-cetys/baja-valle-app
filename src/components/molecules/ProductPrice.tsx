@@ -13,7 +13,7 @@ export default function ProductPrice({ price }: ProductPriceProps) {
         Precio estimado ud.
       </ThemedText>
       <PriceText price={price} className="text-base" />
-      <View className="mt-3 h-px bg-[#33232C]" />
+      <View className="mt-3 h-px bg-[#33232C] mr-6" />
     </View>
   );
 }
