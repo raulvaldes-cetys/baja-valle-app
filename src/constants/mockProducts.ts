@@ -44,13 +44,6 @@ export const MOCK_PRODUCTS: Product[] = [
     price: 85.0,
   },
   {
-    id: "7",
-    name: "Capsulas para Vino Espumoso",
-    image: { uri: "https://hijgomyavxpyrxdrpqnd.supabase.co/storage/v1/object/public/products/material-vinicola/ImgCapsulasEspumoso.png" },
-    categoryId: "vinicolas",
-    price: 450.0,
-  },
-  {
     id: "8",
     name: "Macro Bins",
     image: { uri: "https://hijgomyavxpyrxdrpqnd.supabase.co/storage/v1/object/public/products/material-precosecha/ImgMacroBins.png" },
@@ -379,12 +372,4 @@ export const MOCK_PRODUCTS: Product[] = [
     categoryId: "riego",
     price: 175.0,
   },
-  {
-    id: "55",
-    name: "Valvula de 3/4 a 1/2",
-    image: { uri: "https://hijgomyavxpyrxdrpqnd.supabase.co/storage/v1/object/public/products/material-riego/ImgValvulaTresCuartos.png" },
-    categoryId: "riego",
-    price: 175.0,
-  },
-  
 ];

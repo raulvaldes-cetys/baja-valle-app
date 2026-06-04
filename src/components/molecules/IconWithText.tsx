@@ -5,17 +5,18 @@ import { ThemedText } from "../atoms/ThemedText";
 export type IconWithTextProps = IconProps & {
     label: string;
     className?: string;
+    labelClassName?: string;
     onPress?: () => void;
 }
 
-export function IconWithText({ name, label, className, onPress, ...props }: IconWithTextProps) {
+export function IconWithText({ name, label, className, labelClassName, onPress, ...props }: IconWithTextProps) {
     return (
-        <TouchableOpacity 
+        <TouchableOpacity
             className={`items-center gap-2 ${className ?? ""}`}
             onPress={onPress}
         >
             <Icon name={name} {...props} />
-            <ThemedText weight="light" className="text-sm text-center">{label}</ThemedText>
+            <ThemedText weight="light" className={`text-sm text-center ${labelClassName ?? ""}`}>{label}</ThemedText>
         </TouchableOpacity>
     );
 }

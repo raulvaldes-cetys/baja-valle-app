@@ -28,6 +28,7 @@ export default function CategoryNav({ onCategoryChange }: CategoryNavProps) {
           label={cat.label}
           onPress={() => handlePress(cat.id)}
           className="w-20"
+          labelClassName="text-xs"
         />
       ))}
     </ScrollView>

@@ -8,9 +8,10 @@ import { MOCK_PRODUCTS } from "@/constants/mockProducts";
 import { Product } from "@/types/product";
 import { useState } from "react";
 import { ScrollView, Text, View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function ProductScreen() {
+  const insets = useSafeAreaInsets();
   const [activeCategory, setActiveCategory] = useState<CategoryId>("vinicolas");
   const [search, setSearch] = useState("");
 
@@ -28,32 +29,36 @@ export default function ProductScreen() {
   }
 
   return (
-    <SafeAreaView className="flex-1 bg-[#F5F0E8]">
-      <ScrollView showsVerticalScrollIndicator={false}>
+    <SafeAreaView className="flex-1 bg-[#F5F0E8]" edges={["top"]}>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{ paddingBottom: insets.bottom + 50 }}
+      >
 
-        {/* header */}
-        <View className="items-center pt-4 pb-2">
-          <BajaValleLogo width={200} height={150} />
-          
+        <View className="bg-[#F0EFDF]">
+          {/* header */}
+          <View className="items-center pt-4 pb-1">
+            <BajaValleLogo width={200} height={150} color="#31242C" />
+          </View>
+
+          {/* titulo de seccion */}
+          <Text className="text-center text-3xl font-bold tracking-widest text-[#7B2D2D] px-3 mb-3">
+            NUESTROS PRODUCTOS
+          </Text>
+
+          {/* searchbar */}
+          <View className="flex-row items-center px-4 gap-2 mb-2">
+            <SearchInput
+              placeholder="Gotera para planta"
+              value={search}
+              onChangeText={setSearch}
+            />
+            <CartButton count={0} />
+          </View>
+
+          {/* categorias */}
+          <CategoryNav onCategoryChange={setActiveCategory} />
         </View>
-
-        {/* titulo de seccion*/}
-        <Text className="text-center text-[30px] font-bold tracking-widest text-[#7B2D2D] px-4 mt-1 mb-3">
-          NUESTROS PRODUCTOS
-        </Text>
-
-        {/* searchbar */}
-        <View className="flex-row items-center px-4 gap-2 mb-2">
-          <SearchInput
-            placeholder="Gotera para planta"
-            value={search}
-            onChangeText={setSearch}
-          />
-          <CartButton count={0} />
-        </View>
-
-        {/* categorias */}
-        <CategoryNav onCategoryChange={setActiveCategory} />
 
         {/* productos */}
         <View className="mt-2">

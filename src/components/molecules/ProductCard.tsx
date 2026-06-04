@@ -1,5 +1,5 @@
 import { router } from "expo-router";
-import { ImageSourcePropType, Pressable, Text } from "react-native";
+import { ImageSourcePropType, Pressable, Text, View } from "react-native";
 import ProductImage from "../atoms/ProductImage";
 
 interface ProductCardProps {
@@ -26,6 +26,7 @@ export default function ProductCard({
       >
         {name}
       </Text>
+      <View className="mt-1 h-px bg-[#33232C]" />
     </Pressable>
   );
 }
