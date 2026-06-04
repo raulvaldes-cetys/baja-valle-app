@@ -1,5 +1,6 @@
 import FavoriteButton from "@/components/atoms/FavoriteButton";
-import { Text, View } from "react-native";
+import { ThemedText } from "@/components/atoms/ThemedText";
+import { View } from "react-native";
 
 interface ProductDescriptionProps {
   description: string;
@@ -15,10 +16,12 @@ export default function ProductDescription({
   return (
     <View className="flex-row justify-between items-start mb-8">
       <View className="flex-1 pr-2">
-        <Text className="text-lg font-bold text-gray-900 mb-3">
+        <ThemedText weight="bold" className="text-base mb-2" style={{ color: "#33232C" }}>
           Descripción del producto
-        </Text>
-        <Text className="text-base text-gray-700 leading-6">{description}</Text>
+        </ThemedText>
+        <ThemedText weight="regular" className="text-base leading-6" style={{ color: "#33232C" }}>
+          {description}
+        </ThemedText>
       </View>
       <FavoriteButton isFavorite={isFavorite} onPress={onFavoritePress} />
     </View>

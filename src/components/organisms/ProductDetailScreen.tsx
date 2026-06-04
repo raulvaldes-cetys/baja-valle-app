@@ -1,3 +1,5 @@
+import GrapesVector from "@/assets/expo.icon/Assets/grapes-vector.svg";
+import ProductCharacteristics from "@/components/molecules/ProductCharacteristics";
 import ProductDescription from "@/components/molecules/ProductDescription";
 import ProductHeader from "@/components/molecules/ProductHeader";
 import ProductPrice from "@/components/molecules/ProductPrice";
@@ -40,25 +42,28 @@ export default function ProductDetailScreen({
         {/* Imagen + logo + nombre */}
         <ProductHeader image={product.image} name={product.name} />
 
-        
-        <View className="bg-white px-5 pt-10 pb-20 overflow-hidden">
-          
+        <View className="bg-white px-5 pt-10 pb-32">
+          <View style={{ position: "absolute", right: -50, bottom: 40, opacity: 0.85 }}>
+            <GrapesVector width={160} height={160} fill="#854F0B" />
+          </View>
           <ProductDescription
             description={product.description ?? "Sin descripción disponible."}
             isFavorite={isFavorite}
             onFavoritePress={() => setIsFavorite(!isFavorite)}
           />
+          <ProductCharacteristics
+            characteristics={product.characteristics ?? ["Sin características disponibles."]} />
+          
           <ProductPrice price={product.price} />
         </View>
 
-        {/*  cotizacion */}
+        {/* cotizacion */}
         <View className="flex-1">
           <Quote
             productName={product.name}
             onAddToCart={handleAddToCart}
           />
         </View>
-
       </ScrollView>
     </View>
   );

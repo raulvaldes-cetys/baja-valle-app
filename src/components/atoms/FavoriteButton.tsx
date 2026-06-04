@@ -1,5 +1,5 @@
+import { FontAwesome } from "@expo/vector-icons";
 import { Pressable } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
 
 interface FavoriteButtonProps {
   isFavorite?: boolean;
@@ -12,8 +12,8 @@ export default function FavoriteButton({
 }: FavoriteButtonProps) {
   return (
     <Pressable onPress={onPress} className="p-2">
-      <Ionicons
-        name={isFavorite ? "heart" : "heart-outline"}
+      <FontAwesome
+        name={isFavorite ? "heart" : "heart-o"}
         size={24}
         color={isFavorite ? "#E63946" : "#E63946"}
       />

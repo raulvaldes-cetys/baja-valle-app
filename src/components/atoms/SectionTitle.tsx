@@ -1,4 +1,4 @@
-import { Text } from "react-native";
+import { ThemedText } from "./ThemedText";
 
 interface SectionTitleProps {
   children: string;
@@ -14,11 +14,13 @@ export default function SectionTitle({
   className = "",
 }: SectionTitleProps) {
   return (
-    <Text
-      className={`font-bold uppercase tracking-wide text-[px15] text-[#7B2D2D]  ${className}`}
+    <ThemedText
+    weight="bold"
+    className={`font-bold uppercase tracking-wide ${className}`}
+    style={{ color: "#33232C" }}
       
     >
       {children}
-    </Text>
+    </ThemedText>
   );
 }
