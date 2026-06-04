@@ -19,8 +19,8 @@ export default function AppTabs() {
       }}>
       <Tabs.Screen name="index" options={{ title: 'home' }} />
       <Tabs.Screen name="products" options={{ title: 'products' }} />
-      <Tabs.Screen name="shoppingCart" options={{ title: 'shoppingCart' }} />
-      <Tabs.Screen name="favorites" options={{ title: 'favorites' }} />
+      {/* <Tabs.Screen name="shoppingCart" options={{ title: 'shoppingCart' }} /> */}
+      {/* <Tabs.Screen name="favorites" options={{ title: 'favorites' }} /> */}
     </Tabs>
   );
 }
