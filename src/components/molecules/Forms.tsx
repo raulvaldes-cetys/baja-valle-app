@@ -1,67 +1,92 @@
-import { useState } from "react";
+import { useMutation } from "@tanstack/react-query";
+import { Controller } from "react-hook-form";
 import { View } from "react-native";
+import WaveSvg from "@/assets/expo.icon/Assets/waves.svg";
+import { Api } from "@/api/api";
+import { contactSchema, type ContactForm } from "@/types/zod-schemas";
+import Form from "../atoms/Form";
 import { ThemedButton } from "../atoms/ThemedButton";
 import { ThemedText } from "../atoms/ThemedText";
 import { ContactField } from "./ContactField";
 import WaveDivider from "./WaveDivider";
 
 export default function Forms() {
-
-    const [nombre, setNombre] = useState("");
-    const [apellido, setApellido] = useState("");
-    const [correo, setCorreo] = useState("");
-    const [mensaje, setMensaje] = useState("");
-
-    const [errors, setErrors] = useState({
-        nombre: "",
-        apellido: "",
-        correo: "",
-        mensaje: "",
-    })
-
-    function handleEnviar() {
-        const newErrors = { nombre: "", apellido: "", correo: "", mensaje: "" }
-
-        if (!nombre) newErrors.nombre = "El nombre es requerido"
-        if (!apellido) newErrors.apellido = "El apellido es requerido"
-        if (!correo) {
-            newErrors.correo = "El correo es requerido"
-        } else if (!correo.includes("@")) {
-            newErrors.correo = "Ingresa un correo válido"
-        }
-        if (!mensaje) newErrors.mensaje = "El mensaje es requerido"
-
-        setErrors(newErrors)
-    }
+    const { mutate, isPending, isSuccess } = useMutation({
+        mutationFn: (data: ContactForm) => Api.postMailContact(data),
+    });
 
     return (
-
-        <View className="flex-1 pb-32">
-
+        <View className="flex-1 pb-0">
             <WaveDivider variant="top" />
 
-            <View className="w-full bg-[#99884C] px-4 py-6 gap-4">
-
+            <View className="w-full bg-[#99884C] px-4 pt-6 pb-0 gap-4">
                 <ThemedText weight="bold" className="text-2xl text-center text-[#F0EFDF]">CONTÁCTANOS</ThemedText>
 
-                <View className="flex-row gap-3">
-                    <ContactField className="flex-1" light label="Nombre" value={nombre} onChangeText={setNombre} placeholder="Ingrese su nombre" errorMessage={errors.nombre} />
-                    <ContactField className="flex-1" light label="Apellido" value={apellido} onChangeText={setApellido} placeholder="Ingrese su apellido" errorMessage={errors.apellido} />
-                </View>
+                {isSuccess && (
+                    <ThemedText weight="semibold" className="text-center text-[#F0EFDF] bg-[#7F6E42] rounded-lg px-4 py-2">
+                        ¡Mensaje enviado! Nos pondremos en contacto pronto.
+                    </ThemedText>
+                )}
 
-                <View className="gap-3">
-                    <ContactField light label="Correo electrónico" value={correo} onChangeText={setCorreo} placeholder="Ingrese su correo electrónico" errorMessage={errors.correo} />
-                    <ContactField light label="Mensaje" value={mensaje} onChangeText={setMensaje} placeholder="Escriba su mensaje" variant="textarea" errorMessage={errors.mensaje} />
-                </View>
+                <Form
+                    schema={contactSchema}
+                    defaultValues={{ nombre: "", apellido: "", correo: "", mensaje: "" }}
+                    onSubmitSuccess={(data, form) => mutate(data, { onSuccess: () => form.reset() })}
+                >
+                    {(handleSubmit, form) => (
+                        <>
+                            <View className="flex-row gap-3">
+                                <Controller
+                                    control={form.control}
+                                    name="nombre"
+                                    render={({ field: { value, onChange } }) => (
+                                        <ContactField className="flex-1" light label="Nombre" value={value} onChangeText={onChange} placeholder="Ingrese su nombre" errorMessage={form.formState.errors.nombre?.message} />
+                                    )}
+                                />
+                                <Controller
+                                    control={form.control}
+                                    name="apellido"
+                                    render={({ field: { value, onChange } }) => (
+                                        <ContactField className="flex-1" light label="Apellido" value={value} onChangeText={onChange} placeholder="Ingrese su apellido" errorMessage={form.formState.errors.apellido?.message} />
+                                    )}
+                                />
+                            </View>
 
-                <View className="items-center mt-2">
-                    <ThemedButton variant="primary" onPress={handleEnviar}>ENVIAR</ThemedButton>
+                            <View className="gap-3">
+                                <Controller
+                                    control={form.control}
+                                    name="correo"
+                                    render={({ field: { value, onChange } }) => (
+                                        <ContactField light label="Correo electrónico" value={value} onChangeText={onChange} placeholder="Ingrese su correo electrónico" errorMessage={form.formState.errors.correo?.message} keyboardType="email-address" autoCapitalize="none" />
+                                    )}
+                                />
+                                <Controller
+                                    control={form.control}
+                                    name="mensaje"
+                                    render={({ field: { value, onChange } }) => (
+                                        <ContactField light label="Mensaje" value={value} onChangeText={onChange} placeholder="Escriba su mensaje" variant="textarea" errorMessage={form.formState.errors.mensaje?.message} />
+                                    )}
+                                />
+                            </View>
+
+                            <View className="items-center mt-2">
+                                <ThemedButton variant="primary" onPress={handleSubmit} disabled={isPending}>
+                                    {isPending ? "ENVIANDO..." : "ENVIAR"}
+                                </ThemedButton>
+                            </View>
+                        </>
+                    )}
+                </Form>
+
+                <View className="relative h-64 -mx-4">
+                    <WaveSvg
+                        width="100%"
+                        height="100%"
+                        preserveAspectRatio="none"
+                        style={{ width: '100%', height: '100%' }}
+                    />
                 </View>
             </View>
-            <WaveDivider variant="bottom" />  
-            
         </View>
-
-
-    )
+    );
 }
