@@ -1,9 +1,8 @@
-import "../global.css";
-import { DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import React from 'react';
 import { Montserrat_300Light, Montserrat_400Regular, Montserrat_600SemiBold, Montserrat_700Bold, useFonts } from '@expo-google-fonts/montserrat';
+import { DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import * as SplashScreen from 'expo-splash-screen';
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
+import "../global.css";
 
 import AppTabs from '@/components/app-tabs';
 
