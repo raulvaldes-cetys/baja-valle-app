@@ -45,7 +45,7 @@ export function Icon({ name, size = 48 }: IconProps) {
             }}
         >
 
-            <SvgIcon width={iconSize} height={iconSize} fill="white" color="white" />
+            <SvgIcon width={iconSize} height={iconSize} color="white" />
         </View>
 
     );
