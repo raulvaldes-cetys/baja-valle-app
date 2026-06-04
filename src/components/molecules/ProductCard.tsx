@@ -1,6 +1,7 @@
 import { router } from "expo-router";
-import { ImageSourcePropType, Pressable, Text } from "react-native";
+import { ImageSourcePropType, Pressable } from "react-native";
 import ProductImage from "../atoms/ProductImage";
+import { ThemedText } from "../atoms/ThemedText";
 
 interface ProductCardProps {
   id: string;
@@ -20,12 +21,13 @@ export default function ProductCard({
       className="flex-1 m-1"
     >
       <ProductImage source={image} size="lg" />
-      <Text
+      <ThemedText
+        weight="regular"
         className="text-sm text-gray-800 mt-2"
         numberOfLines={2}
       >
-        {name}
-      </Text>
+        {name.toUpperCase()}
+      </ThemedText>
     </Pressable>
   );
 }

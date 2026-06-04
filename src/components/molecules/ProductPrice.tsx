@@ -1,5 +1,6 @@
 import PriceText from "@/components/atoms/PriceText";
-import { Text, View } from "react-native";
+import { ThemedText } from "@/components/atoms/ThemedText";
+import { View } from "react-native";
 
 interface ProductPriceProps {
   price?: number;
@@ -7,12 +8,11 @@ interface ProductPriceProps {
 
 export default function ProductPrice({ price }: ProductPriceProps) {
   return (
-    <View className="mb-2">
-      <Text className="text-lg font-bold text-gray-900 mb-2">
+    <View className="mb-6">
+      <ThemedText weight="bold" className="text-lg mb-2" style={{ color: "#33232C" }}>
         Precio estimado ud.
-      </Text>
+      </ThemedText>
       <PriceText price={price} className="text-base" />
-      <View className="h-[1px] bg-gray-300 mt-4" />
     </View>
   );
 }

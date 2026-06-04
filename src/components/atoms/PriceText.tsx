@@ -1,4 +1,4 @@
-import { Text } from "react-native";
+import { ThemedText } from "@/components/atoms/ThemedText";
 
 interface PriceTextProps {
   price?: number;
@@ -11,8 +11,8 @@ export default function PriceText({ price, className = "" }: PriceTextProps) {
     : "$ 000.00 MXN";
 
   return (
-    <Text className={`text-base text-gray-800 ${className}`}>
+    <ThemedText weight="regular" className={`text-base ${className}`} style={{ color: "#33232C" }}>
       {formatted}
-    </Text>
+    </ThemedText>
   );
 }
