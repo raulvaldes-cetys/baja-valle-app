@@ -1,18 +1,17 @@
 import { View } from "react-native";
-import { type IconName } from "../atoms/Icon";
+import { CATEGORIES } from "@/constants/categories";
+import { useGetCategoriesList } from "@/services/queries/use-get-categories-list";
+import { Skeleton } from "../atoms/Skeleton";
 import { ThemedText } from "../atoms/ThemedText";
 import { IconWithText } from "./IconWithText";
 
-const productos: { name: IconName; label: string }[] = [
-    { name: "wineGlass", label: "Material para\nVinícolas" },
-    { name: "truck", label: "Pre-cosecha" },
-    { name: "grapes", label: "Material para\nViñedos" },
-    { name: "plant", label: "Material para\nPlanta" },
-    { name: "cork", label: "Corchos" },
-    { name: "waterDrop", label: "Material de\nRiego" },
-];
-
 export default function ProductOverview() {
+    const { data, isLoading } = useGetCategoriesList();
+
+    const categories = data?.categories
+        ?.map((apiCat) => CATEGORIES.find((c) => c.label === apiCat.name))
+        .filter(Boolean) ?? CATEGORIES;
+
     return (
         <View className="bg-[#F0EFDF] px-6 py-8 gap-6">
             <ThemedText weight="bold" className="text-2xl text-center tracking-widest text-[#33232C]">
@@ -20,15 +19,24 @@ export default function ProductOverview() {
             </ThemedText>
 
             <View className="flex-row flex-wrap">
-                {productos.map((producto) => (
-                    <IconWithText
-                        key={producto.name}
-                        name={producto.name}
-                        label={producto.label}
-                        className="w-1/3 py-3"
-                        onPress={() => console.log("presionado")} 
-                    />
-                ))}
+                {isLoading
+                    ? Array.from({ length: 6 }).map((_, i) => (
+                        <View key={i} className="w-1/3 py-3 items-center gap-2">
+                            <Skeleton width={48} height={48} />
+                            <Skeleton width={72} height={10} />
+                            <Skeleton width={56} height={10} />
+                        </View>
+                    ))
+                    : categories.map((category) => (
+                        <IconWithText
+                            key={category!.id}
+                            name={category!.iconName}
+                            label={category!.label}
+                            className="w-1/3 py-3"
+                            onPress={() => console.log("presionado")}
+                        />
+                    ))
+                }
             </View>
         </View>
     );
