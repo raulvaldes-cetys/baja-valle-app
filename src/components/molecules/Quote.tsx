@@ -1,5 +1,6 @@
+import { ThemedText } from "@/components/atoms/ThemedText";
 import { useState } from "react";
-import { Pressable, Text, View } from "react-native";
+import { Pressable, View } from "react-native";
 import Svg, { Path } from "react-native-svg";
 
 interface QuoteProps {
@@ -35,15 +36,17 @@ export default function Quote({
 
       <View className="flex-1 justify-center pb-20">
         {/* Título */}
-        <Text className="text-white text-2xl font-bold text-center mb-6">
+        <ThemedText weight="bold" className="text-white text-2xl text-center mb-6">
           ¡COTIZA AHORA!
-        </Text>
+        </ThemedText>
 
         {/* Dropdown cantidad de unidades */}
         <View className="flex-row items-center gap-10 mb-8">
           <View className="border border-gray-400 rounded px-6 py-3 bg-transparent">
             <Pressable onPress={() => setOpen(!open)}>
-              <Text className="text-white text-sm">{quantity.toLocaleString()} ▾</Text>
+              <ThemedText weight="regular" className="text-white text-sm">
+                {quantity.toLocaleString()} ▾
+              </ThemedText>
             </Pressable>
             {open && (
               <View className="absolute top-10 left-0 bg-white rounded shadow z-10 w-24">
@@ -53,18 +56,20 @@ export default function Quote({
                     onPress={() => { setQuantity(q); setOpen(false); }}
                     className="px-3 py-2"
                   >
-                    <Text className="text-gray-800 text-sm">{q.toLocaleString()}</Text>
+                    <ThemedText weight="regular" className="text-gray-800 text-sm">
+                      {q.toLocaleString()}
+                    </ThemedText>
                   </Pressable>
                 ))}
               </View>
             )}
           </View>
-          <Text className="text-white text-base font-semibold flex-1">
+          <ThemedText weight="semibold" className="text-white text-base flex-1">
             {productName}
-          </Text>
+          </ThemedText>
         </View>
 
-        {/* boton agregar carrito*/}
+        {/* boton agregar carrito */}
         <Pressable
           onPress={() => onAddToCart?.(quantity)}
           onPressIn={() => setIsPressed(true)}
@@ -72,9 +77,9 @@ export default function Quote({
           className="border border-white rounded-full py-3 items-center"
           style={{ backgroundColor: isPressed ? "rgba(255,255,255,0.2)" : "transparent" }}
         >
-          <Text className="text-white text-base font-bold tracking-widest">
+          <ThemedText weight="bold" className="text-white text-base tracking-widest">
             AGREGAR AL CARRITO
-          </Text>
+          </ThemedText>
         </Pressable>
       </View>
     </View>
