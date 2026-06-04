@@ -1,6 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
 import { Controller } from "react-hook-form";
 import { View } from "react-native";
+import WaveSvg from "@/assets/expo.icon/Assets/waves.svg";
 import { Api } from "@/api/api";
 import { contactSchema, type ContactForm } from "@/types/zod-schemas";
 import Form from "../atoms/Form";
@@ -15,10 +16,10 @@ export default function Forms() {
     });
 
     return (
-        <View className="flex-1 pb-32">
+        <View className="flex-1 pb-0">
             <WaveDivider variant="top" />
 
-            <View className="w-full bg-[#99884C] px-4 py-6 gap-4">
+            <View className="w-full bg-[#99884C] px-4 pt-6 pb-0 gap-4">
                 <ThemedText weight="bold" className="text-2xl text-center text-[#F0EFDF]">CONTÁCTANOS</ThemedText>
 
                 {isSuccess && (
@@ -76,9 +77,16 @@ export default function Forms() {
                         </>
                     )}
                 </Form>
-            </View>
 
-            <WaveDivider variant="bottom" />
+                <View className="relative h-64 -mx-4">
+                    <WaveSvg
+                        width="100%"
+                        height="100%"
+                        preserveAspectRatio="none"
+                        style={{ width: '100%', height: '100%' }}
+                    />
+                </View>
+            </View>
         </View>
     );
 }
