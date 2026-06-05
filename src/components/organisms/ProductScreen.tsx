@@ -6,7 +6,7 @@ import ProductGrid from "@/components/organisms/ProductGrid";
 import { Skeleton } from "@/components/atoms/Skeleton";
 import { useGetCategoriesList } from "@/services/queries/use-get-categories-list";
 import { useGetProductsList } from "@/services/queries/use-get-products-list";
-import { useLocalSearchParams } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
 import { ScrollView, Text, View } from "react-native";
 import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
@@ -37,7 +37,8 @@ export default function ProductScreen() {
   const activeLabel = categoriesData?.categories?.find((c) => c.id === activeCategoryApiId)?.name ?? "";
 
   return (
-    <SafeAreaView className="flex-1 bg-[#F5F0E8]" edges={["top"]}>
+    <SafeAreaView className="flex-1 bg-[#F0EFDF]" edges={["top"]}>
+      <View className="flex-1 bg-white">
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ paddingBottom: insets.bottom + 50 }}
@@ -57,7 +58,7 @@ export default function ProductScreen() {
               value={search}
               onChangeText={setSearch}
             />
-            <CartButton count={0} />
+            <CartButton count={0} onPress={() => router.navigate('/(tabs)/shoppingCart')} />
           </View>
 
           <CategoryNav
@@ -69,7 +70,7 @@ export default function ProductScreen() {
           />
         </View>
 
-        <View className="mt-2">
+        <View className="mt-2 bg-white">
           {isLoading ? (
             <View className="px-4 mt-4">
               {Array.from({ length: 3 }).map((_, row) => (
@@ -90,6 +91,7 @@ export default function ProductScreen() {
           )}
         </View>
       </ScrollView>
+      </View>
     </SafeAreaView>
   );
 }

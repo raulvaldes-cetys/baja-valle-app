@@ -6,9 +6,9 @@ import ProductPrice from "@/components/molecules/ProductPrice";
 import Quote from "@/components/molecules/Quote";
 import { ProductByIdResponse } from "@/api/types/api-types";
 import { ThemedText } from "@/components/atoms/ThemedText";
+import { useFavorites } from "@/contexts/FavoritesContext";
 import { useProductCart } from "@/contexts/ProductCartContext";
 import { router } from "expo-router";
-import { useState } from "react";
 import { ScrollView, TouchableOpacity, View } from "react-native";
 
 interface ProductDetailScreenProps {
@@ -16,8 +16,22 @@ interface ProductDetailScreenProps {
 }
 
 export default function ProductDetailScreen({ product }: ProductDetailScreenProps) {
-  const [isFavorite, setIsFavorite] = useState(false);
   const { addToCart } = useProductCart();
+  const { isFavorite, addFavorite, removeFavorite } = useFavorites();
+
+  function handleFavoritePress() {
+    if (isFavorite(product.id)) {
+      removeFavorite(product.id);
+    } else {
+      addFavorite({
+        id: product.id,
+        name: product.name,
+        imageUrl: product.imageUrl,
+        price: product.price,
+        categoryId: 0,
+      });
+    }
+  }
 
   function handleAddToCart(quantity: number) {
     addToCart({
@@ -55,8 +69,8 @@ export default function ProductDetailScreen({ product }: ProductDetailScreenProp
           {product.description && (
             <ProductDescription
               description={product.description}
-              isFavorite={isFavorite}
-              onFavoritePress={() => setIsFavorite(!isFavorite)}
+              isFavorite={isFavorite(product.id)}
+              onFavoritePress={handleFavoritePress}
             />
           )}
 

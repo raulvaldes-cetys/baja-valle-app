@@ -17,15 +17,13 @@ export default function ProductCard({ id, name, imageUrl, isFavorite = false, on
             onPress={() => router.push(`/product/${id}` as any)}
             className="flex-1 m-1"
         >
-            <View className="relative">
-                <ProductImage source={{ uri: imageUrl ?? '' }} size="lg" />
-                <View className="absolute bottom-0 right-0">
-                    <FavoriteButton isFavorite={isFavorite} onPress={onFavoritePress} />
-                </View>
+            <ProductImage source={{ uri: imageUrl ?? '' }} size="lg" />
+            <View className="flex-row items-center justify-between mt-2">
+                <Text className="text-sm text-gray-800 flex-1" numberOfLines={2}>
+                    {name}
+                </Text>
+                <FavoriteButton isFavorite={isFavorite} onPress={onFavoritePress} />
             </View>
-            <Text className="text-sm text-gray-800 mt-2" numberOfLines={2}>
-                {name}
-            </Text>
             <View className="mt-1 h-px bg-[#33232C]" />
         </Pressable>
     );

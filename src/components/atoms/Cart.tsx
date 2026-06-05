@@ -1,24 +1,19 @@
-import CartWhiteSvg from "@/assets/expo.icon/Assets/shopping-cart-white.svg";
-import { Ionicons } from "@expo/vector-icons";
+import CartIconSvg from "@/assets/expo.icon/Assets/cart-icon.svg";
 import { Pressable, Text, View } from "react-native";
 
 interface CartButtonProps {
   count?: number;
   onPress?: () => void;
-  light?: boolean;
+  color?: string;
 }
 
-export default function CartButton({ count = 0, onPress, light = false }: CartButtonProps) {
+export default function CartButton({ count = 0, onPress, color = "#3E3E3E" }: CartButtonProps) {
   return (
     <Pressable
       onPress={onPress}
       className="w-10 h-10 items-center justify-center"
     >
-      {light ? (
-        <CartWhiteSvg width={26} height={26} />
-      ) : (
-        <Ionicons name="cart-outline" size={26} color="#3d3d3a" />
-      )}
+      <CartIconSvg width={26} height={26} color={color} />
       {count > 0 && (
         <View className="absolute top-0 right-0 bg-[#993C1D] rounded-full w-4 h-4 items-center justify-center">
           <Text className="text-white text-[10px] font-bold">
