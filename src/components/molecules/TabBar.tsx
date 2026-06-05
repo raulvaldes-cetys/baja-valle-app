@@ -25,7 +25,7 @@ export default function TabBar({ state, descriptors, navigation }: TabBarProps) 
     return (
         <View style={{ position: 'absolute', bottom: 0, left: 0, right: 0, paddingBottom: insets.bottom }} className="bg-transparent px-6 py-3">
             <View
-                className="flex-row justify-between items-center bg-[#F0EFDF] rounded-full px-6 py-3"
+                className="flex-row justify-between items-center bg-[#F9F9F2] rounded-full px-6 py-3"
                 style={{
                     shadowColor: '#000',
                     shadowOffset: { width: 0, height: 4 },

@@ -9,11 +9,18 @@ export type ThemedButtonProps = TouchableOpacityProps & {
     children: string;
 };
 
-export function ThemedButton({ variant = "default", children, ...props }: ThemedButtonProps) {
+export function ThemedButton({ variant = "default", children, className, ...props }: ThemedButtonProps) {
     if (variant === "pill") {
         return (
-            <TouchableOpacity className="items-center rounded-full bg-white py-4" {...props}>
-                <ThemedText weight="bold" className="text-sm tracking-widest" style={{ color: "#512432" }}>
+            <TouchableOpacity
+                className={`items-center rounded-full py-2.5 ${props.disabled ? "bg-white/40" : "bg-white"} ${className ?? ""}`}
+                {...props}
+            >
+                <ThemedText
+                    weight="bold"
+                    className="text-sm tracking-widest"
+                    style={{ color: props.disabled ? "rgba(81,36,50,0.45)" : "#512432" }}
+                >
                     {children}
                 </ThemedText>
             </TouchableOpacity>

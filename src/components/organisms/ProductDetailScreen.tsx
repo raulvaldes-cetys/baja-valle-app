@@ -6,6 +6,7 @@ import ProductPrice from "@/components/molecules/ProductPrice";
 import Quote from "@/components/molecules/Quote";
 import { ProductByIdResponse } from "@/api/types/api-types";
 import { ThemedText } from "@/components/atoms/ThemedText";
+import { useProductCart } from "@/contexts/ProductCartContext";
 import { router } from "expo-router";
 import { useState } from "react";
 import { ScrollView, TouchableOpacity, View } from "react-native";
@@ -16,9 +17,18 @@ interface ProductDetailScreenProps {
 
 export default function ProductDetailScreen({ product }: ProductDetailScreenProps) {
   const [isFavorite, setIsFavorite] = useState(false);
+  const { addToCart } = useProductCart();
 
   function handleAddToCart(quantity: number) {
-    console.log(`Agregando ${quantity} x ${product.name} al carrito`);
+    addToCart({
+      id: product.id.toString(),
+      name: product.name,
+      imageUrl: product.imageUrl,
+      categoryId: 0,
+      price: product.price,
+      description: product.description ?? undefined,
+      Quantity: quantity,
+    });
   }
 
   return (
