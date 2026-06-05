@@ -40,8 +40,7 @@ const TAB_BAR_HEIGHT = 80;
 export default function CartCheckoutScreen() {
   const { cartItems, clearCart } = useProductCart();
   const { mutate, isPending } = usePostMailCart();
-  const { control, handleSubmit, formState: { errors }, watch } = useZodForm(schema);
-  const canSubmit = schema.safeParse(watch()).success;
+  const { control, handleSubmit, formState: { errors } } = useZodForm(schema);
   const insets = useSafeAreaInsets();
   const [showSuccess, setShowSuccess] = useState(false);
 
@@ -223,7 +222,7 @@ export default function CartCheckoutScreen() {
           <ThemedButton
             variant="pill"
             onPress={handleSubmit(onSubmit)}
-            disabled={isPending || !canSubmit}
+            disabled={isPending}
           >
             {isPending ? "Enviando..." : "Enviar Cotización"}
           </ThemedButton>

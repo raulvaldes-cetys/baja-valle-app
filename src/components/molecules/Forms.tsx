@@ -73,7 +73,7 @@ export default function Forms() {
                             </View>
 
                             <View className="items-center mt-2">
-                                <ThemedButton variant="primary" onPress={handleSubmit} disabled={isPending || !contactSchema.safeParse(form.watch()).success}>
+                                <ThemedButton variant="primary" onPress={handleSubmit} disabled={isPending}>
                                     {isPending ? "ENVIANDO..." : "ENVIAR"}
                                 </ThemedButton>
                             </View>

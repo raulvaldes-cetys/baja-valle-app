@@ -9,6 +9,5 @@ export default function useZodForm<T extends FieldValues>(
     return useForm<T>({
         resolver: zodResolver(schema as any),
         defaultValues,
-        mode: "onChange",
     });
 }
