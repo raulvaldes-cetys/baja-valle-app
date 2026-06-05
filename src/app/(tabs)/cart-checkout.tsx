@@ -2,11 +2,13 @@ import CancelIconSvg from "@/assets/expo.icon/Assets/cancel-icon.svg";
 import FooterDecorationSvg from "@/assets/images/footer-decoration.svg";
 import { ThemedButton } from "@/components/atoms/ThemedButton";
 import { ThemedText } from "@/components/atoms/ThemedText";
+import SuccessModal from "@/components/molecules/SuccessModal";
 import { useProductCart } from "@/contexts/ProductCartContext";
 import useZodForm from "@/hooks/use-zod-form";
 import { usePostMailCart } from "@/services/mutations/use-post-mail-cart";
 import { router } from "expo-router";
 import { Controller } from "react-hook-form";
+import { useState } from "react";
 import { KeyboardAvoidingView, Platform, Pressable, ScrollView, TextInput, View } from "react-native";
 import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
 import { z } from "zod";
@@ -38,8 +40,10 @@ const TAB_BAR_HEIGHT = 80;
 export default function CartCheckoutScreen() {
   const { cartItems, clearCart } = useProductCart();
   const { mutate, isPending } = usePostMailCart();
-  const { control, handleSubmit, formState: { errors } } = useZodForm(schema);
+  const { control, handleSubmit, formState: { errors }, watch } = useZodForm(schema);
+  const canSubmit = schema.safeParse(watch()).success;
   const insets = useSafeAreaInsets();
+  const [showSuccess, setShowSuccess] = useState(false);
 
   function onSubmit(data: CheckoutForm) {
     mutate(
@@ -56,7 +60,7 @@ export default function CartCheckoutScreen() {
       {
         onSuccess: () => {
           clearCart();
-          router.back();
+          setShowSuccess(true);
         },
       }
     );
@@ -64,6 +68,11 @@ export default function CartCheckoutScreen() {
 
   return (
     <SafeAreaView className="flex-1 bg-[#512432]" edges={["top"]}>
+      <SuccessModal
+        visible={showSuccess}
+        onClose={() => { setShowSuccess(false); router.navigate('/(tabs)/shoppingCart'); }}
+        message="¡Cotización enviada correctamente!"
+      />
       <View className="absolute bottom-0 left-0 right-0">
         <FooterDecorationSvg width="100%" height={160} preserveAspectRatio="xMidYMin slice" />
       </View>
@@ -214,7 +223,7 @@ export default function CartCheckoutScreen() {
           <ThemedButton
             variant="pill"
             onPress={handleSubmit(onSubmit)}
-            disabled={isPending}
+            disabled={isPending || !canSubmit}
           >
             {isPending ? "Enviando..." : "Enviar Cotización"}
           </ThemedButton>

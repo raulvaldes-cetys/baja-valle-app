@@ -39,11 +39,14 @@ export function ThemedButton({ variant = "default", children, className, ...prop
 
     if (variant === "primary") {
         return (
-             <TouchableOpacity className="items-center rounded-lg bg-[#F5F5EC] px-14 py-2 mx-4" {...props}>
-            <ThemedText weight="bold" className="text-base tracking-widest text-[#7F6E42]">
-                {children}
-            </ThemedText>
-        </TouchableOpacity>
+            <TouchableOpacity
+                className={`items-center rounded-lg px-14 py-2 mx-4 ${props.disabled ? "bg-[#F5F5EC]/50" : "bg-[#F5F5EC]"}`}
+                {...props}
+            >
+                <ThemedText weight="bold" className={`text-base tracking-widest ${props.disabled ? "text-[#7F6E42]/50" : "text-[#7F6E42]"}`}>
+                    {children}
+                </ThemedText>
+            </TouchableOpacity>
         );
     }
 
