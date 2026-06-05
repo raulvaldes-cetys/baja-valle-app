@@ -63,5 +63,12 @@ La aplicación propuesta resuelve la carencia de una herramienta móvil que perm
 
 Para este proyecto debes abrir la app usando [Expo Go](https://expo.dev/go)
 
+## Funcionalidades Implementadas
+- [x] Catálogo de productos segmentado (viñedo, riego, vinificación).
+- [x] Visualización de fichas de producto con descripción e imágenes.
+- [x] Formulario de contacto. 
+- [x] Solicitud de cotización.
+- [x] Carrito de compras.
+- [x] Agregar productos a favoritos.
 
 
