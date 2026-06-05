@@ -5,6 +5,7 @@ import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
+import { FavoritesProvider } from '../contexts/FavoritesContext';
 import { ProductCartProvider } from '../contexts/ProductCartContext';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
@@ -31,12 +32,14 @@ export default function RootLayout() {
   return (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider value={DefaultTheme}>
-        <ProductCartProvider>
-          <StatusBar style="dark" />
-          <Stack screenOptions={{ headerShown: false }}>
-            <Stack.Screen name="(tabs)" />
-          </Stack>
-        </ProductCartProvider>
+        <FavoritesProvider>
+          <ProductCartProvider>
+            <StatusBar style="dark" />
+            <Stack screenOptions={{ headerShown: false }}>
+              <Stack.Screen name="(tabs)" />
+            </Stack>
+          </ProductCartProvider>
+        </FavoritesProvider>
       </ThemeProvider>
     </QueryClientProvider>
   );

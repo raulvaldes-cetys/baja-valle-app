@@ -1,7 +1,8 @@
 import CartButton from "@/components/atoms/Cart";
 import SearchInput from "@/components/atoms/SearchInput";
-import { Skeleton } from "@/components/atoms/Skeleton";
 import FavoritesGrid from "@/components/organisms/FavoritesGrid";
+import { useFavorites } from "@/contexts/FavoritesContext";
+import { router } from "expo-router";
 import { useState } from "react";
 import { ScrollView, Text, View } from "react-native";
 import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
@@ -9,59 +10,47 @@ import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context"
 export default function FavoritesScreen() {
     const insets = useSafeAreaInsets();
     const [search, setSearch] = useState("");
-    const isLoading = false;
-    const favoritesData: any[] = [];
+    const { favorites, removeFavorite } = useFavorites();
 
-    const filteredFavorites = favoritesData.filter((p) =>
+    const filteredFavorites = favorites.filter((p) =>
         p.name.toLowerCase().includes(search.toLowerCase())
     );
 
     return (
-        <SafeAreaView className="flex-1 bg-[#512432]">
+        <SafeAreaView className="flex-1 bg-[#512432]" edges={["top"]}>
+            <View className="flex-1 bg-[#F9F9F2]">
             <ScrollView
-                className="bg-[#F0EFDF]"
+                className="bg-[#F9F9F2]"
                 showsVerticalScrollIndicator={false}
                 contentContainerStyle={{ paddingBottom: insets.bottom + 50 }}
             >
-                <View className="bg-[#512432] pt-12 pb-8">
-                    <Text className="text-center text-3xl font-bold tracking-widest text-[#FFFFFF] px-3 mb-3 pb-5">
+                <View className="bg-[#512432] pt-8 pb-8 px-6">
+                    <Text className="text-center text-2xl font-bold tracking-widest text-[#FFFFFF] mb-3 pb-5">
                         PRODUCTOS FAVORITOS
                     </Text>
 
-                    <View className="flex-row items-center px-4 gap-2 mb-2">
+                    <View className="flex-row items-center gap-2 mb-2">
                         <SearchInput
                             placeholder="Buscar producto..."
                             value={search}
                             onChangeText={setSearch}
                         />
-                        <CartButton count={0} light/>
+                        <CartButton
+                            count={0}
+                            color="white"
+                            onPress={() => router.navigate('/(tabs)/shoppingCart')}
+                        />
                     </View>
                 </View>
 
                 <View className="mt-2">
-                    {isLoading ? (
-                        <View className="px-4 mt-4">
-                            {Array.from({ length: 3 }).map((_, row) => (
-                                <View key={row} className="flex-row gap-2 mt-3">
-                                    {[0, 1].map((col) => (
-                                        <View key={col} className="flex-1 m-1 gap-2">
-                                            <Skeleton height={160} width="100%" />
-                                            <Skeleton height={12} width="85%" />
-                                            <Skeleton height={12} width="60%" />
-                                            <Skeleton height={1} width="100%" />
-                                        </View>
-                                    ))}
-                                </View>
-                            ))}
-                        </View>
-                    ) : (
-                        <FavoritesGrid
-                            products={filteredFavorites}
-                            onFavoritePress={(id) => console.log("quitar favorito", id)}
-                        />
-                    )}
+                    <FavoritesGrid
+                        products={filteredFavorites}
+                        onFavoritePress={(id) => removeFavorite(id)}
+                    />
                 </View>
             </ScrollView>
+            </View>
         </SafeAreaView>
     );
 }
