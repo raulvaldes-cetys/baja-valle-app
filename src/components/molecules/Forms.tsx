@@ -1,5 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
 import { Controller } from "react-hook-form";
+import { useState } from "react";
 import { View } from "react-native";
 import WaveSvg from "@/assets/expo.icon/Assets/waves.svg";
 import { Api } from "@/api/api";
@@ -8,30 +9,32 @@ import Form from "../atoms/Form";
 import { ThemedButton } from "../atoms/ThemedButton";
 import { ThemedText } from "../atoms/ThemedText";
 import { ContactField } from "./ContactField";
+import SuccessModal from "./SuccessModal";
 import WaveDivider from "./WaveDivider";
 
 export default function Forms() {
-    const { mutate, isPending, isSuccess } = useMutation({
+    const [showSuccess, setShowSuccess] = useState(false);
+    const { mutate, isPending } = useMutation({
         mutationFn: (data: ContactForm) => Api.postMailContact(data),
     });
 
     return (
         <View className="flex-1 pb-0">
+            <SuccessModal
+                visible={showSuccess}
+                onClose={() => setShowSuccess(false)}
+                message="¡Solicitud enviada correctamente!"
+            />
+
             <WaveDivider variant="top" />
 
             <View className="w-full bg-[#99884C] px-4 pt-6 pb-0 gap-4">
                 <ThemedText weight="bold" className="text-2xl text-center text-[#F0EFDF]">CONTÁCTANOS</ThemedText>
 
-                {isSuccess && (
-                    <ThemedText weight="semibold" className="text-center text-[#F0EFDF] bg-[#7F6E42] rounded-lg px-4 py-2">
-                        ¡Mensaje enviado! Nos pondremos en contacto pronto.
-                    </ThemedText>
-                )}
-
                 <Form
                     schema={contactSchema}
                     defaultValues={{ nombre: "", apellido: "", correo: "", mensaje: "" }}
-                    onSubmitSuccess={(data, form) => mutate(data, { onSuccess: () => form.reset() })}
+                    onSubmitSuccess={(data, form) => mutate(data, { onSuccess: () => { form.reset(); setShowSuccess(true); } })}
                 >
                     {(handleSubmit, form) => (
                         <>
