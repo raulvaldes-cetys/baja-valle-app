@@ -1,86 +1,73 @@
+import MinusIconSvg from "@/assets/expo.icon/Assets/minus-icon.svg";
+import PlusIconSvg from "@/assets/expo.icon/Assets/plus-icon.svg";
+import FooterDecorationSvg from "@/assets/images/footer-decoration.svg";
+import { ThemedButton } from "@/components/atoms/ThemedButton";
 import { ThemedText } from "@/components/atoms/ThemedText";
 import { useState } from "react";
 import { Pressable, View } from "react-native";
-import Svg, { Path } from "react-native-svg";
 
 interface QuoteProps {
   productName: string;
   onAddToCart?: (quantity: number) => void;
 }
 
-const QUANTITIES = [100, 500, 1000, 5000];
+const QUICK_ADD = [10, 25, 50, 100];
 
-export default function Quote({
-  productName,
-  onAddToCart,
-}: QuoteProps) {
-  const [quantity, setQuantity] = useState(1000);
-  const [open, setOpen] = useState(false);
-  const [isPressed, setIsPressed] = useState(false);
+export default function Quote({ productName, onAddToCart }: QuoteProps) {
+  const [quantity, setQuantity] = useState(10);
 
   return (
-    <View className="flex-1 bg-[#4A1628] px-12" style={{ minHeight: 400 }}>
-      {/* Ondas de abajo */}
-      <View style={{ position: "absolute", bottom: 0, left: 0, right: 0 }}>
-        <Svg width="100%" height="100" viewBox="0 0 390 80">
-          <Path
-            d="M0,10 C60,40 120,-20 195,10 C270,40 330,-20 390,10 L390,80 L0,80 Z"
-            fill="rgba(255,255,255,0.08)"
-          />
-          <Path
-            d="M0,25 C80,-10 160,40 240,15 C310,-5 360,25 390,20 L390,80 L0,80 Z"
-            fill="rgba(255,255,255,0.05)"
-          />
-        </Svg>
+    <View className="flex-1 bg-[#512432] px-14 pt-6 pb-20 min-h-[400px]">
+      <View className="absolute bottom-0 left-0 right-0">
+        <FooterDecorationSvg width="100%" height={160} preserveAspectRatio="xMidYMin slice" />
       </View>
 
-      <View className="flex-1 justify-center pb-20">
-        {/* Título */}
-        <ThemedText weight="bold" className="text-white text-2xl text-center mb-6">
+      <View className="flex-1 gap-6">
+        <ThemedText weight="bold" className="text-white text-2xl text-center">
           ¡COTIZA AHORA!
         </ThemedText>
 
-        {/* Dropdown cantidad de unidades */}
-        <View className="flex-row items-center gap-10 mb-8">
-          <View className="border border-gray-400 rounded px-6 py-3 bg-transparent">
-            <Pressable onPress={() => setOpen(!open)}>
-              <ThemedText weight="regular" className="text-white text-sm">
-                {quantity.toLocaleString()} ▾
-              </ThemedText>
-            </Pressable>
-            {open && (
-              <View className="absolute top-10 left-0 bg-white rounded shadow z-10 w-24">
-                {QUANTITIES.map((q) => (
-                  <Pressable
-                    key={q}
-                    onPress={() => { setQuantity(q); setOpen(false); }}
-                    className="px-3 py-2"
-                  >
-                    <ThemedText weight="regular" className="text-gray-800 text-sm">
-                      {q.toLocaleString()}
-                    </ThemedText>
-                  </Pressable>
-                ))}
-              </View>
-            )}
-          </View>
-          <ThemedText weight="semibold" className="text-white text-base flex-1">
-            {productName}
+        <ThemedText weight="regular" className="text-white text-base text-center">
+          {productName}
+        </ThemedText>
+
+        <View className="flex-row items-center self-stretch bg-white rounded-[30px] px-8 py-1.5 gap-8">
+          <Pressable
+            onPress={() => { if (quantity > 1) setQuantity((q) => q - 1); }}
+            hitSlop={12}
+          >
+            <MinusIconSvg width={20} height={2} color="#512432" />
+          </Pressable>
+          <ThemedText weight="regular" className="text-[#512432] text-3xl flex-1 text-center">
+            {quantity.toLocaleString()}
           </ThemedText>
+          <Pressable onPress={() => setQuantity((q) => q + 1)} hitSlop={12}>
+            <PlusIconSvg width={20} height={20} color="#512432" />
+          </Pressable>
         </View>
 
-        {/* boton agregar carrito */}
-        <Pressable
-          onPress={() => onAddToCart?.(quantity)}
-          onPressIn={() => setIsPressed(true)}
-          onPressOut={() => setIsPressed(false)}
-          className="border border-white rounded-full py-3 items-center"
-          style={{ backgroundColor: isPressed ? "rgba(255,255,255,0.2)" : "transparent" }}
-        >
-          <ThemedText weight="bold" className="text-white text-base tracking-widest">
-            AGREGAR AL CARRITO
+        <View className="gap-2">
+          <ThemedText weight="semibold" className="text-white text-sm text-center">
+            Agregar rápido
           </ThemedText>
-        </Pressable>
+          <View className="flex-row gap-4">
+            {QUICK_ADD.map((amount) => (
+              <Pressable
+                key={amount}
+                onPress={() => setQuantity((q) => q + amount)}
+                className="flex-1 items-center bg-white rounded-full py-1"
+              >
+                <ThemedText weight="semibold" className="text-[#512432] text-sm">
+                  +{amount}
+                </ThemedText>
+              </Pressable>
+            ))}
+          </View>
+        </View>
+
+        <ThemedButton variant="pill" className="mt-4" onPress={() => onAddToCart?.(quantity)}>
+          AGREGAR AL CARRITO
+        </ThemedButton>
       </View>
     </View>
   );

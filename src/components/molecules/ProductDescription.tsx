@@ -15,7 +15,7 @@ export default function ProductDescription({
 }: ProductDescriptionProps) {
   return (
     <View className="flex-row justify-between items-start mb-8">
-      <View className="flex-1 pr-2">
+      <View style={{ flex: 1, paddingRight: 64 }}>
         <ThemedText weight="bold" className="text-base mb-2" style={{ color: "#33232C" }}>
           Descripción del producto
         </ThemedText>
@@ -23,7 +23,9 @@ export default function ProductDescription({
           {description}
         </ThemedText>
       </View>
-      <FavoriteButton isFavorite={isFavorite} onPress={onFavoritePress} />
+      <View style={{ marginTop: -8 }}>
+        <FavoriteButton isFavorite={isFavorite} onPress={onFavoritePress} />
+      </View>
     </View>
   );
 }

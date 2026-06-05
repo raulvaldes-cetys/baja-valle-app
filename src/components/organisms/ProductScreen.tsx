@@ -7,7 +7,7 @@ import { Skeleton } from "@/components/atoms/Skeleton";
 import { useGetCategoriesList } from "@/services/queries/use-get-categories-list";
 import { useGetProductsList } from "@/services/queries/use-get-products-list";
 import { useLocalSearchParams } from "expo-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ScrollView, Text, View } from "react-native";
 import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
 
@@ -17,11 +17,13 @@ export default function ProductScreen() {
   const insets = useSafeAreaInsets();
   const { categoryId: categoryIdParam } = useLocalSearchParams<{ categoryId?: string }>();
 
-  const parsedId = Number(categoryIdParam);
-  const [activeCategoryApiId, setActiveCategoryApiId] = useState<number>(
-    parsedId > 0 ? parsedId : DEFAULT_CATEGORY_ID
-  );
+  const [activeCategoryApiId, setActiveCategoryApiId] = useState<number>(DEFAULT_CATEGORY_ID);
   const [search, setSearch] = useState("");
+
+  useEffect(() => {
+    const parsedId = Number(categoryIdParam);
+    if (parsedId > 0) setActiveCategoryApiId(parsedId);
+  }, [categoryIdParam]);
 
   const { data: productsData, isLoading } = useGetProductsList();
   const { data: categoriesData } = useGetCategoriesList();

@@ -1,6 +1,6 @@
 import api from './axios';
 import ENDPOINTS from './endpoints';
-import { CartMailBody, CategoriesListResponse, ContactMailBody, ProductsListResponse } from './types/api-types';
+import { CartMailBody, CategoriesListResponse, ContactMailBody, ProductByIdResponse, ProductsListResponse } from './types/api-types';
 
 
 export class Api {
@@ -16,7 +16,7 @@ export class Api {
         }
     }
 
-    static async getProductDetails(productId: string) {
+    static async getProductDetails(productId: string): Promise<ProductByIdResponse> {
         try {
             const response = await api.get(`${ENDPOINTS.PRODUCTS}/${productId}`, {});
             return response.data;
@@ -49,8 +49,11 @@ export class Api {
     static async postMailCart(body: CartMailBody): Promise<void> {
         try {
             await api.post(ENDPOINTS.POST_MAIL_CART, body);
-        } catch (error) {
+        } catch (error: any) {
             console.error('Error sending cart mail:', error);
+            console.error('Response status:', error?.response?.status);
+            console.error('Response data:', JSON.stringify(error?.response?.data, null, 2));
+            console.error('Request body sent:', JSON.stringify(body, null, 2));
             throw error;
         }
     }

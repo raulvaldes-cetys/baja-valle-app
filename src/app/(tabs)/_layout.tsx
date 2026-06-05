@@ -21,7 +21,8 @@ export default function TabsLayout() {
       <Tabs.Screen name="products" options={{ title: 'products' }} />
       <Tabs.Screen name="product/[id]" options={{ href: null }} />
       <Tabs.Screen name="explore" options={{ href: null }} />
-      {/* <Tabs.Screen name="shoppingCart" options={{ title: 'shoppingCart' }} /> */}
+      <Tabs.Screen name="shoppingCart" options={{ title: 'shoppingCart' }} />
+      <Tabs.Screen name="cart-checkout" options={{ href: null }} />
       {/* <Tabs.Screen name="favorites" options={{ title: 'favorites' }} /> */}
     </Tabs>
   );

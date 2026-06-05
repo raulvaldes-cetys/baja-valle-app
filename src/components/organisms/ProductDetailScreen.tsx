@@ -1,68 +1,87 @@
-import GrapesVector from "@/assets/expo.icon/Assets/grapes-vector.svg";
+import GrapesVectorSvg from "@/assets/expo.icon/Assets/grapes-vector.svg";
 import ProductCharacteristics from "@/components/molecules/ProductCharacteristics";
 import ProductDescription from "@/components/molecules/ProductDescription";
 import ProductHeader from "@/components/molecules/ProductHeader";
 import ProductPrice from "@/components/molecules/ProductPrice";
 import Quote from "@/components/molecules/Quote";
-import { Product } from "@/types/product";
-import { Ionicons } from "@expo/vector-icons";
+import { ProductByIdResponse } from "@/api/types/api-types";
+import { ThemedText } from "@/components/atoms/ThemedText";
+import { useProductCart } from "@/contexts/ProductCartContext";
 import { router } from "expo-router";
 import { useState } from "react";
 import { ScrollView, TouchableOpacity, View } from "react-native";
 
 interface ProductDetailScreenProps {
-  product: Product;
+  product: ProductByIdResponse;
 }
 
-export default function ProductDetailScreen({
-  product,
-}: ProductDetailScreenProps) {
+export default function ProductDetailScreen({ product }: ProductDetailScreenProps) {
   const [isFavorite, setIsFavorite] = useState(false);
+  const { addToCart } = useProductCart();
 
   function handleAddToCart(quantity: number) {
-    console.log(`Agregando ${quantity} x ${product.name} al carrito`);
+    addToCart({
+      id: product.id.toString(),
+      name: product.name,
+      imageUrl: product.imageUrl,
+      categoryId: 0,
+      price: product.price,
+      description: product.description ?? undefined,
+      Quantity: quantity,
+    });
   }
 
   return (
     <View className="flex-1 bg-[#4A1628]">
-      {/* boton regresar */}
       <TouchableOpacity
-        onPress={() => router.back()}
-        style={{ position: "absolute", top: 50, left: 16, zIndex: 10 }}
-        className="bg-black/30 rounded-full p-2"
+        onPress={() => router.navigate('/(tabs)/products')}
+        className="absolute top-[50px] left-4 z-10 bg-black/30 rounded-full p-2"
       >
-        <Ionicons name="arrow-back" size={24} color="white" />
+        <ThemedText weight="bold" className="text-white text-xl px-1">←</ThemedText>
       </TouchableOpacity>
 
       <ScrollView
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ flexGrow: 1 }}
+        contentContainerClassName="grow"
         bounces={true}
       >
-        {/* Imagen + logo + nombre */}
-        <ProductHeader image={product.image} name={product.name} />
+        <ProductHeader imageUrl={product.imageUrl} name={product.name} />
 
-        <View className="bg-white px-5 pt-10 pb-32">
-          <View style={{ position: "absolute", right: -50, bottom: 40, opacity: 0.85 }}>
-            <GrapesVector width={160} height={160} fill="#854F0B" />
+        <View className="bg-white px-5 pt-10 pb-2 overflow-hidden">
+          <View className="absolute right-0 top-[100px] opacity-[0.85]">
+            <GrapesVectorSvg width={80} height={200} />
           </View>
-          <ProductDescription
-            description={product.description ?? "Sin descripción disponible."}
-            isFavorite={isFavorite}
-            onFavoritePress={() => setIsFavorite(!isFavorite)}
-          />
-          <ProductCharacteristics
-            characteristics={product.characteristics ?? ["Sin características disponibles."]} />
-          
-          <ProductPrice price={product.price} />
+
+          {product.description && (
+            <ProductDescription
+              description={product.description}
+              isFavorite={isFavorite}
+              onFavoritePress={() => setIsFavorite(!isFavorite)}
+            />
+          )}
+
+          <View className="mr-[54px]">
+            {product.features && product.features.length > 0 && (
+              <ProductCharacteristics characteristics={product.features} />
+            )}
+
+            {product.specifications && (
+              <View className="mb-4">
+                <ThemedText weight="bold" className="text-lg mb-2 text-[#33232C]">
+                  Especificaciones
+                </ThemedText>
+                <ThemedText weight="regular" className="text-base leading-6 text-[#33232C]">
+                  {product.specifications}
+                </ThemedText>
+              </View>
+            )}
+
+            <ProductPrice price={product.price} />
+          </View>
         </View>
 
-        {/* cotizacion */}
         <View className="flex-1">
-          <Quote
-            productName={product.name}
-            onAddToCart={handleAddToCart}
-          />
+          <Quote productName={product.name} onAddToCart={handleAddToCart} />
         </View>
       </ScrollView>
     </View>

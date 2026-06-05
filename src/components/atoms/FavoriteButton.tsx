@@ -1,4 +1,4 @@
-import { FontAwesome } from "@expo/vector-icons";
+import FavoritesSvg from "@/assets/expo.icon/Assets/favorites.svg";
 import { Pressable } from "react-native";
 
 interface FavoriteButtonProps {
@@ -6,16 +6,14 @@ interface FavoriteButtonProps {
   onPress?: () => void;
 }
 
-export default function FavoriteButton({
-  isFavorite = false,
-  onPress,
-}: FavoriteButtonProps) {
+export default function FavoriteButton({ isFavorite = false, onPress }: FavoriteButtonProps) {
   return (
     <Pressable onPress={onPress} className="p-2">
-      <FontAwesome
-        name={isFavorite ? "heart" : "heart-o"}
-        size={24}
-        color={isFavorite ? "#E63946" : "#E63946"}
+      <FavoritesSvg
+        width={24}
+        height={24}
+        color={isFavorite ? "#E63946" : "#9CA3AF"}
+        fill={isFavorite ? "#E63946" : "none"}
       />
     </Pressable>
   );

@@ -6,8 +6,9 @@ interface PriceTextProps {
 }
 
 export default function PriceText({ price, className = "" }: PriceTextProps) {
-  const formatted = price
-    ? `$ ${price.toFixed(2)} MXN`
+  const parsed = Number(price);
+  const formatted = !isNaN(parsed) && parsed > 0
+    ? `$ ${parsed.toFixed(2)} MXN`
     : "$ 000.00 MXN";
 
   return (
