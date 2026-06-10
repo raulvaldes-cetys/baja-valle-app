@@ -41,6 +41,7 @@ export interface ContactMailBody {
 export interface CartItem {
   nombre: string;
   cantidad: number;
+  precio: number;
 }
 
 export interface CartMailBody {

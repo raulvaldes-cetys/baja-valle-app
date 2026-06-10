@@ -54,6 +54,7 @@ export default function CartCheckoutScreen() {
         items: cartItems.map((item) => ({
           nombre: item.name,
           cantidad: item.Quantity ?? 1,
+          precio: item.price ?? 0,
         })),
       },
       {
