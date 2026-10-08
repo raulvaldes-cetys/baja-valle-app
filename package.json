@@ -58,7 +58,7 @@
     "@typescript-eslint/eslint-plugin": "^8.59.4",
     "@typescript-eslint/parser": "^8.59.4",
     "eslint": "^9.39.4",
-    "eslint-config-expo": "^55.0.1",
+    "eslint-config-expo": "^57.0.2",
     "husky": "^9.1.7",
     "typescript": "~5.9.2"
   },
