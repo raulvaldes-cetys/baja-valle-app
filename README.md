@@ -49,14 +49,21 @@ La aplicación propuesta resuelve la carencia de una herramienta móvil que perm
    ```
 
 
-2. Instalar dependencias (requiere [pnpm](https://pnpm.io/installation), versión fijada en `packageManager`)
+2. Instala [gitleaks](https://github.com/gitleaks/gitleaks#installing) (obligatorio: el hook de pre-commit no deja hacer commit sin él)
+
+   ```bash
+   brew install gitleaks      # macOS
+   winget install gitleaks    # Windows
+   ```
+
+3. Instalar dependencias (requiere [pnpm](https://pnpm.io/installation), versión fijada en `packageManager`)
 
    ```bash
    corepack enable
    pnpm install
    ```
 
-3. Abre la app
+4. Abre la app
 
    ```bash
    pnpm expo start --clear
