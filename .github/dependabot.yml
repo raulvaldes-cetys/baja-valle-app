@@ -9,8 +9,7 @@ updates:
       minor-and-patch:
         update-types: [minor, patch]
     ignore:
-      # Las versiones de Expo, React y React Native las fija el SDK de Expo;
-      # se actualizan juntas con `pnpm expo install --fix`, no por separado
+      # Las fija el SDK de Expo; se actualizan con `pnpm expo install --fix`
       - dependency-name: expo
         update-types: ['version-update:semver-major']
       - dependency-name: react
