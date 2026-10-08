@@ -49,16 +49,24 @@ La aplicación propuesta resuelve la carencia de una herramienta móvil que perm
    ```
 
 
-2. Instalar dependencias
+2. Instala [gitleaks](https://github.com/gitleaks/gitleaks#installing) (obligatorio: el hook de pre-commit no deja hacer commit sin él)
 
    ```bash
-   npm install
+   brew install gitleaks      # macOS
+   winget install gitleaks    # Windows
    ```
 
-3. Abre la app
+3. Instalar dependencias (requiere [pnpm](https://pnpm.io/installation), versión fijada en `packageManager`)
 
    ```bash
-   npx expo start --clear
+   corepack enable
+   pnpm install
+   ```
+
+4. Abre la app
+
+   ```bash
+   pnpm expo start --clear
    ```
 
 Para este proyecto debes abrir la app usando [Expo Go](https://expo.dev/go)
