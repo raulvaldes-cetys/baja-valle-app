@@ -37,5 +37,3 @@ jobs:
           cache: pnpm
       - run: pnpm install --frozen-lockfile
       - run: pnpm lint
-      # Pendiente (Fase 5): typecheck y `pnpm audit --audit-level high` cuando se corrijan los
-      # errores de tipos existentes y se alineen las versiones de Expo
