@@ -1,0 +1,8 @@
+packages:
+  - '.'
+
+allowBuilds:
+  unrs-resolver: true
+
+# React Native / Expo tooling (Metro, autolinking, nativewind) expects a flat node_modules
+nodeLinker: hoisted

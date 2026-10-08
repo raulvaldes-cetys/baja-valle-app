@@ -49,16 +49,17 @@ La aplicación propuesta resuelve la carencia de una herramienta móvil que perm
    ```
 
 
-2. Instalar dependencias
+2. Instalar dependencias (requiere [pnpm](https://pnpm.io/installation), versión fijada en `packageManager`)
 
    ```bash
-   npm install
+   corepack enable
+   pnpm install
    ```
 
 3. Abre la app
 
    ```bash
-   npx expo start --clear
+   pnpm expo start --clear
    ```
 
 Para este proyecto debes abrir la app usando [Expo Go](https://expo.dev/go)
