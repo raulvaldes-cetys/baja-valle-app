@@ -63,7 +63,13 @@ La aplicación propuesta resuelve la carencia de una herramienta móvil que perm
    pnpm install
    ```
 
-4. Abre la app
+4. Configura la URL de la API (por defecto, la de Azure)
+
+   ```bash
+   cp .env.example .env
+   ```
+
+5. Abre la app
 
    ```bash
    pnpm expo start --clear
