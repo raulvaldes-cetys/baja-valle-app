@@ -11,12 +11,23 @@ updates:
       minor-and-patch:
         update-types: [minor, patch]
     ignore:
-      # Major upgrades need a manual migration; Expo SDK packages move together with `pnpm expo install --fix`
+      # Major upgrades need a manual migration
       - dependency-name: '*'
         update-types: ['version-update:semver-major']
-      - dependency-name: react
-      - dependency-name: react-dom
-      - dependency-name: react-native
+      # Pinned by the Expo SDK (Expo Go ships these native versions); update them with `pnpm expo install --fix`
+      - dependency-name: '@react-native-async-storage/async-storage'
+      - dependency-name: 'eslint-config-expo'
+      - dependency-name: 'expo'
+      - dependency-name: 'expo-*'
+      - dependency-name: 'react'
+      - dependency-name: 'react-dom'
+      - dependency-name: 'react-native'
+      - dependency-name: 'react-native-gesture-handler'
+      - dependency-name: 'react-native-reanimated'
+      - dependency-name: 'react-native-safe-area-context'
+      - dependency-name: 'react-native-screens'
+      - dependency-name: 'react-native-svg'
+      - dependency-name: 'react-native-web'
 
   - package-ecosystem: github-actions
     directory: /
