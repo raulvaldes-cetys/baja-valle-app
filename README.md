@@ -2,7 +2,7 @@
 
 Baja Valle App es una aplicación móvil multiplataforma desarrollada para Baja Valle, empresa local dedicada al suministro de materiales para viñedos en Ensenada, Baja California. El proyecto tiene como objetivo digitalizar su catálogo de productos y facilitar el proceso de cotización mediante una experiencia móvil moderna e intuitiva.
 
-La aplicación está desarrollada con React Native y Expo, compatible con iOS y Android, siguiendo principios de Atomic Design para garantizar una arquitectura de componentes escalable y reutilizable. El backend se implementa con NestJS y Prisma conectado a una base de datos en Supabase, exponiendo una API REST para la gestión de productos, categorías y solicitudes de contacto.
+La aplicación está desarrollada con React Native y Expo, compatible con iOS y Android, siguiendo principios de Atomic Design para garantizar una arquitectura de componentes escalable y reutilizable. El backend se implementa con NestJS y Prisma sobre PostgreSQL, desplegado en Azure, y expone una API REST para la gestión de productos, categorías, cuentas y solicitudes de contacto.
 
 Entre sus funcionalidades principales se encuentran la visualización del catálogo organizado por categorías, la consulta de detalles de producto con imágenes y especificaciones técnicas, el guardado de productos favoritos y el envío de formularios de contacto directamente desde la app.
 
@@ -30,9 +30,9 @@ La aplicación propuesta resuelve la carencia de una herramienta móvil que perm
 - Tanstack Query
 
 ### Backend
-- Netsjs
+- NestJS
 - Prisma
-- Supabase
+- PostgreSQL en Azure
 - PNPM
 
 ## Instalación
