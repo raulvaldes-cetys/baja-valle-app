@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useState } from "react";
 import { Animated, DimensionValue, StyleSheet, View } from "react-native";
 
 interface SkeletonProps {
@@ -14,9 +14,9 @@ export function Skeleton({
     animationWidth = 400,
     className = "",
 }: SkeletonProps) {
-    const shimmerOpacity = useRef(new Animated.Value(0)).current;
-    const shimmerTranslateX = useRef(new Animated.Value(-animationWidth)).current;
-    const randomDelay = useRef(Math.random() * 1000).current;
+    const [shimmerOpacity] = useState(() => new Animated.Value(0));
+    const [shimmerTranslateX] = useState(() => new Animated.Value(-animationWidth));
+    const [randomDelay] = useState(() => Math.random() * 1000);
 
     useEffect(() => {
         const animation = Animated.parallel([
@@ -58,7 +58,7 @@ export function Skeleton({
 
         animation.start();
         return () => animation.stop();
-    }, []);
+    }, [animationWidth, randomDelay, shimmerOpacity, shimmerTranslateX]);
 
     return (
         <View className={className} style={{ width }}>
@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
         borderRadius: 6,
     },
     shimmer: {
-        ...StyleSheet.absoluteFillObject,
+        ...StyleSheet.absoluteFill,
         backgroundColor: "#E2E8F0",
     },
 });
