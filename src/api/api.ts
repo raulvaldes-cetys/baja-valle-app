@@ -1,6 +1,6 @@
 import api from './axios';
 import ENDPOINTS from './endpoints';
-import { AuthResponse, AuthTokens, CartMailBody, CategoriesListResponse, ContactMailBody, LoginBody, ProductByIdResponse, ProductsListResponse, RegisterBody, UserProfile } from './types/api-types';
+import { AuthResponse, AuthTokens, CartMailBody, CategoriesListResponse, ContactMailBody, LoginBody, ProductByIdResponse, ProductsListResponse, RegisterBody, UpdateProfileBody, UserProfile } from './types/api-types';
 
 
 export class Api {
@@ -58,6 +58,11 @@ export class Api {
 
     static async getProfile(): Promise<UserProfile> {
         const response = await api.get(ENDPOINTS.PROFILE);
+        return response.data;
+    }
+
+    static async updateProfile(body: UpdateProfileBody): Promise<UserProfile> {
+        const response = await api.patch(ENDPOINTS.PROFILE, body);
         return response.data;
     }
 
