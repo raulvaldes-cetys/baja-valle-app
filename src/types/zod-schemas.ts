@@ -8,3 +8,20 @@ export const contactSchema = z.object({
 });
 
 export type ContactForm = z.infer<typeof contactSchema>;
+
+
+export const loginSchema = z.object({
+    email: z.string().trim().min(1, "El correo es requerido").email("Ingresa un correo válido").max(254, "El correo es demasiado largo"),
+    password: z.string().min(1, "La contraseña es requerida").max(128, "La contraseña es demasiado larga"),
+});
+
+export type LoginForm = z.infer<typeof loginSchema>;
+
+export const registerSchema = z.object({
+    firstName: z.string().trim().min(1, "El nombre es requerido").max(80, "El nombre es demasiado largo"),
+    lastName: z.string().trim().min(1, "El apellido es requerido").max(80, "El apellido es demasiado largo"),
+    email: z.string().trim().min(1, "El correo es requerido").email("Ingresa un correo válido").max(254, "El correo es demasiado largo"),
+    password: z.string().min(10, "La contraseña debe tener al menos 10 caracteres").max(128, "La contraseña es demasiado larga"),
+});
+
+export type RegisterForm = z.infer<typeof registerSchema>;

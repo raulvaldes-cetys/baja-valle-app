@@ -39,6 +39,8 @@ export default function RootLayout() {
               <StatusBar style="dark" />
               <Stack screenOptions={{ headerShown: false }}>
                 <Stack.Screen name="(tabs)" />
+              <Stack.Screen name="login" />
+              <Stack.Screen name="register" />
               </Stack>
             </ProductCartProvider>
           </FavoritesProvider>
