@@ -1,6 +1,7 @@
 import { isAxiosError } from "axios";
 import { createContext, ReactNode, useContext, useEffect, useState } from "react";
 import { Api } from "../api/api";
+import { setSessionExpiredHandler } from "../api/axios";
 import { AuthResponse, LoginBody, RegisterBody, UserProfile } from "../api/types/api-types";
 import { clearTokens, getTokens, loadTokens, saveTokens } from "../lib/session-storage";
 
@@ -18,6 +19,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<UserProfile | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
+  useEffect(() => {
+    setSessionExpiredHandler(() => setUser(null));
+    return () => setSessionExpiredHandler(null);
+  }, []);
+
   // Al abrir la app se restaura la sesión guardada
   useEffect(() => {
     async function restoreSession() {
@@ -26,7 +32,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         if (!stored) return;
         const tokens = await Api.refresh(stored.refreshToken);
         await saveTokens(tokens);
-        setUser(await Api.getProfile(tokens.accessToken));
+        setUser(await Api.getProfile());
       } catch (error) {
         // Sin conexión se conserva la sesión guardada; si el servidor la rechaza, se borra
         if (isAxiosError(error) && error.response) await clearTokens();
@@ -52,8 +58,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   async function signOut() {
     try {
-      const tokens = getTokens();
-      if (tokens) await Api.logout(tokens.accessToken);
+      if (getTokens()) await Api.logout();
     } catch {
       // Aunque el servidor no responda, la sesión se cierra en el dispositivo
     }

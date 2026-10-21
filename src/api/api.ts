@@ -52,12 +52,12 @@ export class Api {
         return response.data;
     }
 
-    static async logout(accessToken: string): Promise<void> {
-        await api.post(ENDPOINTS.AUTH_LOGOUT, null, { headers: { Authorization: `Bearer ${accessToken}` } });
+    static async logout(): Promise<void> {
+        await api.post(ENDPOINTS.AUTH_LOGOUT);
     }
 
-    static async getProfile(accessToken: string): Promise<UserProfile> {
-        const response = await api.get(ENDPOINTS.PROFILE, { headers: { Authorization: `Bearer ${accessToken}` } });
+    static async getProfile(): Promise<UserProfile> {
+        const response = await api.get(ENDPOINTS.PROFILE);
         return response.data;
     }
 
