@@ -33,3 +33,26 @@ export const profileSchema = z.object({
 });
 
 export type ProfileForm = z.infer<typeof profileSchema>;
+
+
+const currentPasswordField = z.string().min(1, "La contraseña actual es requerida").max(128, "La contraseña es demasiado larga");
+
+export const changeEmailSchema = z.object({
+    newEmail: z.string().trim().min(1, "El correo es requerido").email("Ingresa un correo válido").max(254, "El correo es demasiado largo"),
+    currentPassword: currentPasswordField,
+});
+
+export type ChangeEmailForm = z.infer<typeof changeEmailSchema>;
+
+export const changePasswordSchema = z.object({
+    currentPassword: currentPasswordField,
+    newPassword: z.string().min(10, "La contraseña debe tener al menos 10 caracteres").max(128, "La contraseña es demasiado larga"),
+});
+
+export type ChangePasswordForm = z.infer<typeof changePasswordSchema>;
+
+export const deleteAccountSchema = z.object({
+    currentPassword: currentPasswordField,
+});
+
+export type DeleteAccountForm = z.infer<typeof deleteAccountSchema>;

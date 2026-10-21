@@ -10,6 +10,9 @@ const api = axios.create({
   },
 });
 
+// Con esta respuesta el token es válido, así que no hay nada que refrescar
+const WRONG_CURRENT_PASSWORD = 'La contraseña actual es incorrecta';
+
 type RetryableConfig = InternalAxiosRequestConfig & { retried?: boolean };
 
 // AuthContext lo registra para volver a modo invitado cuando la sesión ya no se puede renovar
@@ -44,7 +47,8 @@ api.interceptors.request.use((config) => {
 api.interceptors.response.use(undefined, async (error: AxiosError) => {
   const request = error.config as RetryableConfig | undefined;
   const tokens = getTokens();
-  if (error.response?.status !== 401 || !request || request.retried || !tokens) {
+  const isWrongPassword = (error.response?.data as { message?: string } | undefined)?.message === WRONG_CURRENT_PASSWORD;
+  if (error.response?.status !== 401 || isWrongPassword || !request || request.retried || !tokens) {
     throw error;
   }
   request.retried = true;

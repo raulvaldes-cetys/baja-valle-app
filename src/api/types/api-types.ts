@@ -84,3 +84,13 @@ export interface UpdateProfileBody {
   firstName: string;
   lastName: string;
 }
+
+export interface ChangeEmailBody {
+  newEmail: string;
+  currentPassword: string;
+}
+
+export interface ChangePasswordBody {
+  currentPassword: string;
+  newPassword: string;
+}
