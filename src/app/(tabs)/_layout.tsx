@@ -1,7 +1,10 @@
 import TabBar from '@/components/molecules/TabBar';
+import { useAuth } from '@/contexts/AuthContext';
 import { Tabs } from 'expo-router';
 
 export default function TabsLayout() {
+  const { user } = useAuth();
+
   return (
     <Tabs
       tabBar={(props) => <TabBar {...props} />}
@@ -23,7 +26,8 @@ export default function TabsLayout() {
       <Tabs.Screen name="explore" options={{ href: null }} />
       <Tabs.Screen name="shoppingCart" options={{ title: 'shoppingCart' }} />
       <Tabs.Screen name="cart-checkout" options={{ href: null }} />
-      <Tabs.Screen name="favorites" options={{ title: 'favorites' }} />
+      <Tabs.Screen name="favorites" options={{ title: 'favorites', href: user ? undefined : null }} />
+      <Tabs.Screen name="profile" options={{ title: 'profile', href: user ? undefined : null }} />
     </Tabs>
   );
 }

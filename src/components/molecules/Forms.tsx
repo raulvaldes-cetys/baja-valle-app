@@ -4,6 +4,7 @@ import { useState } from "react";
 import { View } from "react-native";
 import WaveSvg from "@/assets/expo.icon/Assets/waves.svg";
 import { Api } from "@/api/api";
+import { useAuth } from "@/contexts/AuthContext";
 import { contactSchema, type ContactForm } from "@/types/zod-schemas";
 import Form from "../atoms/Form";
 import { ThemedButton } from "../atoms/ThemedButton";
@@ -14,6 +15,7 @@ import WaveDivider from "./WaveDivider";
 
 export default function Forms() {
     const [showSuccess, setShowSuccess] = useState(false);
+    const { user } = useAuth();
     const { mutate, isPending } = useMutation({
         mutationFn: (data: ContactForm) => Api.postMailContact(data),
     });
@@ -32,8 +34,9 @@ export default function Forms() {
                 <ThemedText weight="bold" className="text-2xl text-center text-[#F0EFDF]">CONTÁCTANOS</ThemedText>
 
                 <Form
+                    key={user?.id ?? "guest"}
                     schema={contactSchema}
-                    defaultValues={{ nombre: "", apellido: "", correo: "", mensaje: "" }}
+                    defaultValues={{ nombre: user?.firstName ?? "", apellido: user?.lastName ?? "", correo: user?.email ?? "", mensaje: "" }}
                     onSubmitSuccess={(data, form) => mutate(data, { onSuccess: () => { form.reset(); setShowSuccess(true); } })}
                 >
                     {(handleSubmit, form) => (

@@ -2,6 +2,8 @@ import FavoritesSvg from "@/assets/expo.icon/Assets/favorites.svg";
 import HomeSvg from "@/assets/expo.icon/Assets/home.svg";
 import ProductsSvg from "@/assets/expo.icon/Assets/products.svg";
 import ShoppingCartSvg from "@/assets/expo.icon/Assets/cart-icon.svg";
+import { useAuth } from "@/contexts/AuthContext";
+import { Ionicons } from "@expo/vector-icons";
 import { TouchableOpacity, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
@@ -13,6 +15,9 @@ const icons: Record<string, any> = {
 };
 
 
+// Solo se muestran con una sesión iniciada
+const SIGNED_IN_ONLY = ["favorites", "profile"];
+
 type TabBarProps = {
     state: any;
     descriptors: any;
@@ -21,6 +26,7 @@ type TabBarProps = {
 
 export default function TabBar({ state, descriptors, navigation }: TabBarProps) {
     const insets = useSafeAreaInsets();
+    const { user } = useAuth();
 
     return (
         <View style={{ position: 'absolute', bottom: 0, left: 0, right: 0, paddingBottom: insets.bottom }} className="bg-transparent px-6 py-3">
@@ -37,12 +43,15 @@ export default function TabBar({ state, descriptors, navigation }: TabBarProps) 
                 {state.routes.map((route: any, index: number) => {
                     const isFocused = state.index === index;
                     const SvgIcon = icons[route.name];
+                    const isProfile = route.name === "profile";
+                    const iconColor = isFocused ? "#99884C" : "#9CA3AF";
 
                     const onPress = () => {
                         if (!isFocused) navigation.navigate(route.name);
                     };
 
-                    if (!SvgIcon) return null;
+                    if (!user && SIGNED_IN_ONLY.includes(route.name)) return null;
+                    if (!SvgIcon && !isProfile) return null;
 
                     return (
                         <TouchableOpacity
@@ -50,12 +59,10 @@ export default function TabBar({ state, descriptors, navigation }: TabBarProps) 
                             onPress={onPress}
                             className="items-center"
                         >
-                            {SvgIcon && (
-                                <SvgIcon
-                                    width={24}
-                                    height={24}
-                                    color={isFocused ? "#99884C" : "#9CA3AF"}
-                                />
+                            {isProfile ? (
+                                <Ionicons name="person-outline" size={24} color={iconColor} />
+                            ) : (
+                                <SvgIcon width={24} height={24} color={iconColor} />
                             )}
                             <View
                                 className={`w-8 h-[2px] rounded-full ${isFocused ? "bg-[#99884C]" : "bg-transparent"}`}
