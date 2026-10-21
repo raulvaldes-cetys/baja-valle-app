@@ -7,7 +7,7 @@ import { Skeleton } from "@/components/atoms/Skeleton";
 import { useGetCategoriesList } from "@/services/queries/use-get-categories-list";
 import { useGetProductsList } from "@/services/queries/use-get-products-list";
 import { router, useLocalSearchParams } from "expo-router";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { ScrollView, Text, View } from "react-native";
 import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
 
@@ -17,13 +17,17 @@ export default function ProductScreen() {
   const insets = useSafeAreaInsets();
   const { categoryId: categoryIdParam } = useLocalSearchParams<{ categoryId?: string }>();
 
-  const [activeCategoryApiId, setActiveCategoryApiId] = useState<number>(DEFAULT_CATEGORY_ID);
+  const [activeCategoryApiId, setActiveCategoryApiId] = useState<number>(
+    Number(categoryIdParam) > 0 ? Number(categoryIdParam) : DEFAULT_CATEGORY_ID
+  );
+  const [lastCategoryParam, setLastCategoryParam] = useState(categoryIdParam);
   const [search, setSearch] = useState("");
 
-  useEffect(() => {
-    const parsedId = Number(categoryIdParam);
-    if (parsedId > 0) setActiveCategoryApiId(parsedId);
-  }, [categoryIdParam]);
+  // Cambia la categoría activa cuando llega una nueva desde otra pantalla
+  if (categoryIdParam !== lastCategoryParam) {
+    setLastCategoryParam(categoryIdParam);
+    if (Number(categoryIdParam) > 0) setActiveCategoryApiId(Number(categoryIdParam));
+  }
 
   const { data: productsData, isLoading } = useGetProductsList();
   const { data: categoriesData } = useGetCategoriesList();
