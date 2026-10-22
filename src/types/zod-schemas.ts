@@ -25,3 +25,11 @@ export const registerSchema = z.object({
 });
 
 export type RegisterForm = z.infer<typeof registerSchema>;
+
+
+export const profileSchema = z.object({
+    firstName: z.string().trim().min(1, "El nombre es requerido").max(80, "El nombre es demasiado largo"),
+    lastName: z.string().trim().min(1, "El apellido es requerido").max(80, "El apellido es demasiado largo"),
+});
+
+export type ProfileForm = z.infer<typeof profileSchema>;

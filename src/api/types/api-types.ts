@@ -79,3 +79,8 @@ export interface RegisterBody extends LoginBody {
   firstName: string;
   lastName: string;
 }
+
+export interface UpdateProfileBody {
+  firstName: string;
+  lastName: string;
+}

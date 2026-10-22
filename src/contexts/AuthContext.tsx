@@ -2,7 +2,7 @@ import { isAxiosError } from "axios";
 import { createContext, ReactNode, useContext, useEffect, useState } from "react";
 import { Api } from "../api/api";
 import { setSessionExpiredHandler } from "../api/axios";
-import { AuthResponse, LoginBody, RegisterBody, UserProfile } from "../api/types/api-types";
+import { AuthResponse, LoginBody, RegisterBody, UpdateProfileBody, UserProfile } from "../api/types/api-types";
 import { clearTokens, getTokens, loadTokens, saveTokens } from "../lib/session-storage";
 
 interface AuthContextType {
@@ -11,6 +11,7 @@ interface AuthContextType {
   signIn: (body: LoginBody) => Promise<void>;
   signUp: (body: RegisterBody) => Promise<void>;
   signOut: () => Promise<void>;
+  updateProfile: (body: UpdateProfileBody) => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -66,8 +67,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setUser(null);
   }
 
+  async function updateProfile(body: UpdateProfileBody) {
+    setUser(await Api.updateProfile(body));
+  }
+
   return (
-    <AuthContext.Provider value={{ user, isLoading, signIn, signUp, signOut }}>
+    <AuthContext.Provider value={{ user, isLoading, signIn, signUp, signOut, updateProfile }}>
       {children}
     </AuthContext.Provider>
   );
