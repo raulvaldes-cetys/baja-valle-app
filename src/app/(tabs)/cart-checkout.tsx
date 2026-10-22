@@ -2,13 +2,14 @@ import CancelIconSvg from "@/assets/expo.icon/Assets/cancel-icon.svg";
 import FooterDecorationSvg from "@/assets/images/footer-decoration.svg";
 import { ThemedButton } from "@/components/atoms/ThemedButton";
 import { ThemedText } from "@/components/atoms/ThemedText";
+import { useAuth } from "@/contexts/AuthContext";
 import SuccessModal from "@/components/molecules/SuccessModal";
 import { useProductCart } from "@/contexts/ProductCartContext";
 import useZodForm from "@/hooks/use-zod-form";
 import { usePostMailCart } from "@/services/mutations/use-post-mail-cart";
 import { router } from "expo-router";
 import { Controller } from "react-hook-form";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { KeyboardAvoidingView, Platform, Pressable, ScrollView, TextInput, View } from "react-native";
 import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
 import { z } from "zod";
@@ -40,9 +41,17 @@ const TAB_BAR_HEIGHT = 80;
 export default function CartCheckoutScreen() {
   const { cartItems, clearCart } = useProductCart();
   const { mutate, isPending } = usePostMailCart();
-  const { control, handleSubmit, formState: { errors } } = useZodForm(schema);
+  const { control, handleSubmit, setValue, formState: { errors } } = useZodForm(schema);
+  const { user } = useAuth();
   const insets = useSafeAreaInsets();
   const [showSuccess, setShowSuccess] = useState(false);
+
+  // Con sesión iniciada, nombre y correo vienen del perfil
+  useEffect(() => {
+    setValue("nombre", user?.firstName ?? "");
+    setValue("apellido", user?.lastName ?? "");
+    setValue("correo", user?.email ?? "");
+  }, [user, setValue]);
 
   function onSubmit(data: CheckoutForm) {
     mutate(

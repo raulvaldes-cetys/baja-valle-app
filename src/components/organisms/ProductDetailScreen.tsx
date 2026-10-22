@@ -6,6 +6,7 @@ import ProductPrice from "@/components/molecules/ProductPrice";
 import Quote from "@/components/molecules/Quote";
 import { ProductByIdResponse } from "@/api/types/api-types";
 import { ThemedText } from "@/components/atoms/ThemedText";
+import { useAuth } from "@/contexts/AuthContext";
 import { useFavorites } from "@/contexts/FavoritesContext";
 import { useProductCart } from "@/contexts/ProductCartContext";
 import { router } from "expo-router";
@@ -18,8 +19,13 @@ interface ProductDetailScreenProps {
 export default function ProductDetailScreen({ product }: ProductDetailScreenProps) {
   const { addToCart } = useProductCart();
   const { isFavorite, addFavorite, removeFavorite } = useFavorites();
+  const { user } = useAuth();
 
   function handleFavoritePress() {
+    if (!user) {
+      router.push("/login");
+      return;
+    }
     if (isFavorite(product.id)) {
       removeFavorite(product.id);
     } else {
