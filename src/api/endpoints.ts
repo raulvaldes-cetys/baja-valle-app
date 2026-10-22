@@ -8,7 +8,10 @@ const Endpoints = {
     AUTH_LOGIN: '/auth/login',
     AUTH_REFRESH: '/auth/refresh',
     AUTH_LOGOUT: '/auth/logout',
+    AUTH_LOGOUT_ALL: '/auth/logout-all',
     PROFILE: '/users/me',
+    PROFILE_EMAIL: '/users/me/email',
+    PROFILE_PASSWORD: '/users/me/password',
 
     // mail service
     POST_MAIL_CONTACT: '/mail/contact',

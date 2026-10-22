@@ -1,6 +1,6 @@
 import api from './axios';
 import ENDPOINTS from './endpoints';
-import { AuthResponse, AuthTokens, CartMailBody, CategoriesListResponse, ContactMailBody, LoginBody, ProductByIdResponse, ProductsListResponse, RegisterBody, UpdateProfileBody, UserProfile } from './types/api-types';
+import { AuthResponse, CartMailBody, ChangeEmailBody, ChangePasswordBody, CategoriesListResponse, ContactMailBody, LoginBody, ProductByIdResponse, ProductsListResponse, RegisterBody, UpdateProfileBody, UserProfile } from './types/api-types';
 
 
 export class Api {
@@ -47,11 +47,6 @@ export class Api {
         return response.data;
     }
 
-    static async refresh(refreshToken: string): Promise<AuthTokens> {
-        const response = await api.post(ENDPOINTS.AUTH_REFRESH, { refreshToken });
-        return response.data;
-    }
-
     static async logout(): Promise<void> {
         await api.post(ENDPOINTS.AUTH_LOGOUT);
     }
@@ -64,6 +59,23 @@ export class Api {
     static async updateProfile(body: UpdateProfileBody): Promise<UserProfile> {
         const response = await api.patch(ENDPOINTS.PROFILE, body);
         return response.data;
+    }
+
+    static async changeEmail(body: ChangeEmailBody): Promise<UserProfile> {
+        const response = await api.patch(ENDPOINTS.PROFILE_EMAIL, body);
+        return response.data;
+    }
+
+    static async changePassword(body: ChangePasswordBody): Promise<void> {
+        await api.patch(ENDPOINTS.PROFILE_PASSWORD, body);
+    }
+
+    static async logoutAll(): Promise<void> {
+        await api.post(ENDPOINTS.AUTH_LOGOUT_ALL);
+    }
+
+    static async deleteAccount(currentPassword: string): Promise<void> {
+        await api.delete(ENDPOINTS.PROFILE, { data: { currentPassword } });
     }
 
     static async postMailContact(body: ContactMailBody): Promise<void> {

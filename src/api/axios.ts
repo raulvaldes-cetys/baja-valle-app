@@ -10,6 +10,9 @@ const api = axios.create({
   },
 });
 
+// Con esta respuesta el token es válido, así que no hay nada que refrescar
+const WRONG_CURRENT_PASSWORD = 'La contraseña actual es incorrecta';
+
 type RetryableConfig = InternalAxiosRequestConfig & { retried?: boolean };
 
 // AuthContext lo registra para volver a modo invitado cuando la sesión ya no se puede renovar
@@ -33,6 +36,14 @@ async function refreshAccessToken() {
   return data.accessToken;
 }
 
+// También lo usa AuthContext al abrir la app, para no mandar el mismo refresh token dos veces
+export function refreshSession() {
+  refreshing ??= refreshAccessToken().finally(() => {
+    refreshing = null;
+  });
+  return refreshing;
+}
+
 api.interceptors.request.use((config) => {
   const tokens = getTokens();
   if (tokens && config.url !== ENDPOINTS.AUTH_REFRESH) {
@@ -44,7 +55,8 @@ api.interceptors.request.use((config) => {
 api.interceptors.response.use(undefined, async (error: AxiosError) => {
   const request = error.config as RetryableConfig | undefined;
   const tokens = getTokens();
-  if (error.response?.status !== 401 || !request || request.retried || !tokens) {
+  const isWrongPassword = (error.response?.data as { message?: string } | undefined)?.message === WRONG_CURRENT_PASSWORD;
+  if (error.response?.status !== 401 || isWrongPassword || !request || request.retried || !tokens) {
     throw error;
   }
   request.retried = true;
@@ -56,10 +68,7 @@ api.interceptors.response.use(undefined, async (error: AxiosError) => {
   }
 
   try {
-    refreshing ??= refreshAccessToken().finally(() => {
-      refreshing = null;
-    });
-    request.headers.Authorization = `Bearer ${await refreshing}`;
+    request.headers.Authorization = `Bearer ${await refreshSession()}`;
   } catch (refreshError) {
     // Sin conexión se conserva la sesión; si el servidor rechaza el refresh, se cierra
     if (isAxiosError(refreshError) && refreshError.response) {
