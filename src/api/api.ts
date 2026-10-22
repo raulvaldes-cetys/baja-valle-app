@@ -1,6 +1,6 @@
 import api from './axios';
 import ENDPOINTS from './endpoints';
-import { CartMailBody, CategoriesListResponse, ContactMailBody, ProductByIdResponse, ProductsListResponse } from './types/api-types';
+import { AuthResponse, AuthTokens, CartMailBody, CategoriesListResponse, ContactMailBody, LoginBody, ProductByIdResponse, ProductsListResponse, RegisterBody, UserProfile } from './types/api-types';
 
 
 export class Api {
@@ -35,6 +35,30 @@ export class Api {
             console.error('Error fetching categories list:', error);
             throw error;
         }
+    }
+
+    static async login(body: LoginBody): Promise<AuthResponse> {
+        const response = await api.post(ENDPOINTS.AUTH_LOGIN, body);
+        return response.data;
+    }
+
+    static async register(body: RegisterBody): Promise<AuthResponse> {
+        const response = await api.post(ENDPOINTS.AUTH_REGISTER, body);
+        return response.data;
+    }
+
+    static async refresh(refreshToken: string): Promise<AuthTokens> {
+        const response = await api.post(ENDPOINTS.AUTH_REFRESH, { refreshToken });
+        return response.data;
+    }
+
+    static async logout(accessToken: string): Promise<void> {
+        await api.post(ENDPOINTS.AUTH_LOGOUT, null, { headers: { Authorization: `Bearer ${accessToken}` } });
+    }
+
+    static async getProfile(accessToken: string): Promise<UserProfile> {
+        const response = await api.get(ENDPOINTS.PROFILE, { headers: { Authorization: `Bearer ${accessToken}` } });
+        return response.data;
     }
 
     static async postMailContact(body: ContactMailBody): Promise<void> {

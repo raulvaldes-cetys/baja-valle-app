@@ -50,3 +50,32 @@ export interface CartMailBody {
   ubicacion: string;
   items: CartItem[];
 }
+
+export type UserRole = 'CLIENT' | 'ADMIN';
+
+export interface UserProfile {
+  id: string;
+  email: string;
+  firstName: string;
+  lastName: string;
+  role: UserRole;
+}
+
+export interface AuthTokens {
+  accessToken: string;
+  refreshToken: string;
+}
+
+export interface AuthResponse extends AuthTokens {
+  user: UserProfile;
+}
+
+export interface LoginBody {
+  email: string;
+  password: string;
+}
+
+export interface RegisterBody extends LoginBody {
+  firstName: string;
+  lastName: string;
+}
