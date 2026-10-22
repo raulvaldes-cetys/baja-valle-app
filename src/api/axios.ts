@@ -36,6 +36,14 @@ async function refreshAccessToken() {
   return data.accessToken;
 }
 
+// También lo usa AuthContext al abrir la app, para no mandar el mismo refresh token dos veces
+export function refreshSession() {
+  refreshing ??= refreshAccessToken().finally(() => {
+    refreshing = null;
+  });
+  return refreshing;
+}
+
 api.interceptors.request.use((config) => {
   const tokens = getTokens();
   if (tokens && config.url !== ENDPOINTS.AUTH_REFRESH) {
@@ -60,10 +68,7 @@ api.interceptors.response.use(undefined, async (error: AxiosError) => {
   }
 
   try {
-    refreshing ??= refreshAccessToken().finally(() => {
-      refreshing = null;
-    });
-    request.headers.Authorization = `Bearer ${await refreshing}`;
+    request.headers.Authorization = `Bearer ${await refreshSession()}`;
   } catch (refreshError) {
     // Sin conexión se conserva la sesión; si el servidor rechaza el refresh, se cierra
     if (isAxiosError(refreshError) && refreshError.response) {

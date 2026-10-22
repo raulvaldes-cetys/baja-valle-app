@@ -1,7 +1,7 @@
 import { isAxiosError } from "axios";
 import { createContext, ReactNode, useContext, useEffect, useState } from "react";
 import { Api } from "../api/api";
-import { setSessionExpiredHandler } from "../api/axios";
+import { refreshSession, setSessionExpiredHandler } from "../api/axios";
 import { AuthResponse, ChangeEmailBody, ChangePasswordBody, LoginBody, RegisterBody, UpdateProfileBody, UserProfile } from "../api/types/api-types";
 import { clearTokens, getTokens, loadTokens, saveTokens } from "../lib/session-storage";
 
@@ -35,8 +35,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       try {
         const stored = await loadTokens();
         if (!stored) return;
-        const tokens = await Api.refresh(stored.refreshToken);
-        await saveTokens(tokens);
+        await refreshSession();
         setUser(await Api.getProfile());
       } catch (error) {
         // Sin conexión se conserva la sesión guardada; si el servidor la rechaza, se borra

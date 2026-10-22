@@ -1,6 +1,6 @@
 import api from './axios';
 import ENDPOINTS from './endpoints';
-import { AuthResponse, AuthTokens, CartMailBody, ChangeEmailBody, ChangePasswordBody, CategoriesListResponse, ContactMailBody, LoginBody, ProductByIdResponse, ProductsListResponse, RegisterBody, UpdateProfileBody, UserProfile } from './types/api-types';
+import { AuthResponse, CartMailBody, ChangeEmailBody, ChangePasswordBody, CategoriesListResponse, ContactMailBody, LoginBody, ProductByIdResponse, ProductsListResponse, RegisterBody, UpdateProfileBody, UserProfile } from './types/api-types';
 
 
 export class Api {
@@ -44,11 +44,6 @@ export class Api {
 
     static async register(body: RegisterBody): Promise<AuthResponse> {
         const response = await api.post(ENDPOINTS.AUTH_REGISTER, body);
-        return response.data;
-    }
-
-    static async refresh(refreshToken: string): Promise<AuthTokens> {
-        const response = await api.post(ENDPOINTS.AUTH_REFRESH, { refreshToken });
         return response.data;
     }
 
